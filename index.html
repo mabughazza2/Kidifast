@@ -1,0 +1,2530 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes">
+<meta name="theme-color" content="#f0b429">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="الصائم الصغير">
+<title>مغامرة الصائم الصغير 🌙</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ============ THEME VARIABLES ============ */
+:root,[data-theme="night"]{
+  --bg:#0f1b3d;--bg2:#1a2951;--bg3:#243566;
+  --accent:#f0b429;--accent2:#fdd868;--accent3:#c98a00;
+  --teal:#38c9b0;--teal2:#7eecd9;
+  --rose:#e85d75;--green:#52d68a;--purple:#9b59b6;
+  --text:#f0e6d3;--muted:#a0b0cc;
+  --text-on-accent:#1a1000;    /* dark text on yellow accent */
+  --text-on-teal:#fff;
+  --text-on-green:#0a2a14;
+  --text-on-rose:#fff;
+  --text-on-done:#0a2a14;      /* text on green done background */
+  --surf:rgba(255,255,255,0.07);--surf2:rgba(255,255,255,0.13);
+  --bdr:rgba(240,180,41,0.22);
+  --shadow:0 8px 32px rgba(0,0,0,0.45);
+  --r:18px;--font:'Tajawal',sans-serif;
+}
+[data-theme="day"]{
+  --bg:#f5f0e8;--bg2:#fffbf0;--bg3:#fff3d0;
+  --accent:#8a5c00;--accent2:#c48000;--accent3:#5a3a00;
+  --teal:#006b58;--teal2:#009977;
+  --rose:#c00028;--green:#1a6b2a;--purple:#5a1fa0;
+  --text:#1a1000;--muted:#6a4820;
+  --text-on-accent:#fff;
+  --text-on-teal:#fff;
+  --text-on-green:#fff;
+  --text-on-rose:#fff;
+  --text-on-done:#fff;
+  --surf:rgba(0,0,0,0.05);--surf2:rgba(0,0,0,0.09);
+  --bdr:rgba(138,92,0,0.22);
+  --shadow:0 4px 16px rgba(0,0,0,0.10);
+}
+[data-theme="girls"]{
+  --bg:#fff5f9;--bg2:#fff0f6;--bg3:#ffe6f0;
+  --accent:#c0006a;--accent2:#e8008a;--accent3:#8a004a;
+  --teal:#7700b8;--teal2:#aa22e0;
+  --rose:#c00040;--green:#6600a0;--purple:#aa00cc;
+  --text:#2a0018;--muted:#7a3055;
+  --text-on-accent:#fff;
+  --text-on-teal:#fff;
+  --text-on-green:#fff;
+  --text-on-rose:#fff;
+  --text-on-done:#fff;
+  --surf:rgba(192,0,106,0.06);--surf2:rgba(192,0,106,0.12);
+  --bdr:rgba(192,0,106,0.20);
+  --shadow:0 4px 16px rgba(150,0,80,0.12);
+}
+[data-theme="boys"]{
+  --bg:#f2f8f3;--bg2:#eaf5ec;--bg3:#d5eedd;
+  --accent:#1a6b00;--accent2:#28a000;--accent3:#104500;
+  --teal:#005f80;--teal2:#0088aa;
+  --rose:#c03000;--green:#005500;--purple:#3a3ab0;
+  --text:#0a180a;--muted:#3a5a32;
+  --text-on-accent:#fff;
+  --text-on-teal:#fff;
+  --text-on-green:#fff;
+  --text-on-rose:#fff;
+  --text-on-done:#fff;
+  --surf:rgba(26,107,0,0.06);--surf2:rgba(26,107,0,0.12);
+  --bdr:rgba(26,107,0,0.20);
+  --shadow:0 4px 16px rgba(0,80,0,0.10);
+}
+
+/* ============ BASE ============ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}
+body{
+  font-family:var(--font);background:var(--bg);color:var(--text);
+  direction:rtl;text-align:right;min-height:100vh;
+  overflow-x:hidden;-webkit-tap-highlight-color:transparent;
+  transition:background 0.3s,color 0.3s;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(1px 1px at 20% 30%,rgba(255,255,255,0.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 60% 20%,rgba(255,255,255,0.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 80% 70%,rgba(255,255,255,0.3) 0%,transparent 100%),
+    radial-gradient(1px 1px at 35% 55%,rgba(240,180,41,0.3) 0%,transparent 100%);
+}
+[data-theme="day"] body::before,[data-theme="girls"] body::before,[data-theme="boys"] body::before{opacity:0.2}
+#app{max-width:520px;margin:0 auto;min-height:100vh;position:relative;z-index:1;padding-bottom:90px}
+
+/* ====== RAMADAN PATH MAP ====== */
+/* ====== RAMADAN GAME PATH MAP ====== */
+#ramadan-path-map{padding:10px 0 20px;position:relative;user-select:none}
+.rpath-row{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:0;position:relative}
+.rpath-row.rtl-row{flex-direction:row-reverse}
+
+/* The path connector line */
+.rpath-line{flex:1;height:6px;border-radius:3px;background:var(--bdr);position:relative;min-width:10px;max-width:32px}
+.rpath-line.done-line{background:linear-gradient(90deg,var(--green),#38d988)}
+.rpath-line.today-line{background:linear-gradient(90deg,var(--green),var(--accent))}
+
+/* Vertical connector between rows */
+.rpath-vline-wrap{display:flex;align-items:center;justify-content:flex-start;padding-right:24px;margin:0}
+.rpath-vline-wrap.rtl-side{justify-content:flex-end;padding-right:0;padding-left:24px}
+.rpath-vline{width:6px;height:28px;border-radius:3px;background:var(--bdr)}
+.rpath-vline.done-vline{background:linear-gradient(180deg,var(--green),#38d988)}
+
+/* Day node */
+.rday{width:52px;height:52px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--font);cursor:default;position:relative;flex-shrink:0;transition:transform .2s;border:3px solid transparent}
+
+/* States */
+.rday.rd-done{background:linear-gradient(135deg,#2ecc71,#27ae60);border-color:#27ae60;box-shadow:0 3px 10px rgba(46,204,113,0.4)}
+.rday.rd-done .rday-num{color:#fff;font-weight:900;font-size:0.9rem}
+.rday.rd-done .rday-icon{font-size:1rem}
+
+.rday.rd-missed{background:linear-gradient(135deg,#e74c3c,#c0392b);border-color:#c0392b;box-shadow:0 3px 8px rgba(231,76,60,0.35)}
+.rday.rd-missed .rday-num{color:#fff;font-weight:900;font-size:0.9rem}
+.rday.rd-missed .rday-icon{font-size:1rem}
+
+.rday.rd-today{background:linear-gradient(135deg,var(--accent),#f5a623);border-color:var(--accent);box-shadow:0 0 0 4px rgba(240,180,41,0.3),0 3px 12px rgba(240,180,41,0.5);animation:pulse-today 2s ease-in-out infinite}
+.rday.rd-today .rday-num{color:#1a1a1a;font-weight:900;font-size:0.9rem}
+.rday.rd-today .rday-icon{font-size:1.1rem}
+
+.rday.rd-locked{background:var(--surf2);border-color:var(--bdr);opacity:0.5}
+.rday.rd-locked .rday-num{color:var(--muted);font-size:0.85rem}
+.rday.rd-locked .rday-icon{font-size:0.85rem}
+
+/* Milestone nodes (days 7,14,21,30) — bigger */
+.rday.rd-milestone{width:62px;height:62px}
+.rday.rd-milestone .rday-num{font-size:0.95rem}
+.rday.rd-milestone .rday-icon{font-size:1.3rem}
+
+.rday-num{line-height:1;margin-bottom:1px}
+.rday-icon{line-height:1}
+
+@keyframes pulse-today{
+  0%,100%{box-shadow:0 0 0 4px rgba(240,180,41,0.3),0 3px 12px rgba(240,180,41,0.5)}
+  50%{box-shadow:0 0 0 8px rgba(240,180,41,0.15),0 3px 16px rgba(240,180,41,0.6)}
+}
+
+/* Path legend */
+.path-legend{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px;margin-bottom:16px}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:0.72rem;color:var(--muted)}
+.legend-dot{width:12px;height:12px;border-radius:50%}
+
+/* Milestone label */
+.milestone-label{position:absolute;top:-22px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:0.62rem;font-weight:700;color:var(--accent);background:rgba(240,180,41,0.15);border:1px solid rgba(240,180,41,0.3);padding:1px 6px;border-radius:8px}
+
+#ramadan-path-map{padding:10px 0 20px;position:relative}
+.path-section{position:relative;padding:0 8px}
+.path-row{display:flex;align-items:flex-end;justify-content:center;padding:4px 0}
+.path-row.ltr{flex-direction:row}
+.path-row.rtl{flex-direction:row-reverse}
+.path-node{display:flex;flex-direction:column;align-items:center;width:60px;flex-shrink:0;position:relative}
+.path-connector{width:14px;height:4px;background:var(--bdr);border-radius:2px;align-self:center;margin-bottom:26px;flex-shrink:0}
+.path-connector.done-conn{background:#22c55e}
+.path-connector.miss-conn{background:#ef4444}
+.path-connector.today-conn{background:linear-gradient(90deg,#22c55e,var(--accent))}
+
+.path-btn{width:52px;height:52px;border-radius:50%;border:3px solid var(--bdr);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-size:1.25rem;position:relative;transition:transform .15s;
+  background:var(--surf2);box-shadow:0 3px 8px rgba(0,0,0,.25);cursor:default}
+.path-btn .day-num{font-size:0.58rem;font-weight:900;line-height:1;margin-top:1px;color:rgba(255,255,255,.85)}
+.path-btn .day-lbl{font-size:0.6rem;font-weight:700;margin-top:4px;color:var(--muted);text-align:center;max-width:58px;line-height:1.2;white-space:nowrap}
+
+.path-btn.st-done{background:linear-gradient(145deg,#22c55e,#15803d);border-color:#16a34a;box-shadow:0 4px 12px rgba(34,197,94,.4)}
+.path-btn.st-today{background:linear-gradient(145deg,#f0b429,#d97706);border-color:#f0b429;width:60px;height:60px;font-size:1.45rem;
+  box-shadow:0 0 0 5px rgba(240,180,41,.25),0 4px 16px rgba(240,180,41,.5);
+  animation:pulseToday 2s ease-in-out infinite}
+.path-btn.st-missed{background:linear-gradient(145deg,#ef4444,#b91c1c);border-color:#dc2626;box-shadow:0 4px 12px rgba(239,68,68,.4)}
+.path-btn.st-locked{background:var(--surf);border-color:var(--bdr);opacity:.5}
+.path-btn.st-done .day-num,.path-btn.st-today .day-num,.path-btn.st-missed .day-num{color:#fff}
+@keyframes pulseToday{0%,100%{box-shadow:0 0 0 5px rgba(240,180,41,.25),0 4px 16px rgba(240,180,41,.5)}50%{box-shadow:0 0 0 10px rgba(240,180,41,.1),0 4px 20px rgba(240,180,41,.65)}}
+
+/* SVG curve between rows */
+.path-turn{display:flex;justify-content:center;height:34px;overflow:visible;margin:0 4px}
+.path-milestone{background:rgba(240,180,41,.1);border:1.5px solid var(--accent);border-radius:12px;
+  padding:6px 14px;margin:8px 14px 10px;text-align:center;font-size:0.78rem;
+  font-weight:700;color:var(--accent);display:flex;align-items:center;justify-content:center;gap:6px}
+
+/* Parent tab buttons — 2-row grid */
+.ptab-btn{background:var(--surf);border:1.5px solid var(--bdr);border-radius:12px;padding:10px 6px;
+  font-family:var(--font);font-size:0.78rem;font-weight:700;color:var(--muted);cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .15s;min-height:58px;line-height:1.2}
+.ptab-btn span{font-size:0.75rem}
+.ptab-btn.active,.ptab-btn:active{background:var(--accent);border-color:var(--accent);color:#000}
+.ptab-btn:hover:not(.active){border-color:var(--accent);color:var(--accent)}
+
+/* ===== COMPREHENSIVE RESPONSIVE DESIGN ===== */
+/* Base: prevent ALL overflow */
+*{box-sizing:border-box}
+img,video,iframe{max-width:100%;height:auto}
+.screen{padding:16px 14px;overflow-x:hidden}
+
+/* Cards don't overflow */
+.card{overflow:hidden;word-break:break-word}
+.child-card,.shop-item,.deed-btn,.quest-item{word-break:break-word;overflow:hidden}
+
+/* Text truncation for names */
+.child-card .bold,.shop-item .bold{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+
+/* ---- 320px — very small phones ---- */
+@media(max-width:360px){
+  html{font-size:13.5px}
+  .screen{padding:12px 10px}
+  .timer-display{font-size:2rem!important}
+  .welcome-title{font-size:1.7rem}
+  .welcome-moon{font-size:3.5rem}
+  .stats-grid{grid-template-columns:repeat(2,1fr)!important}
+  .deeds-grid{grid-template-columns:repeat(2,1fr)!important}
+  .ptab-btn{font-size:0.7rem;padding:8px 4px;min-height:52px}
+  .ptab-btn span{font-size:0.68rem}
+  #app{padding-bottom:70px}
+  .btn{font-size:0.9rem;padding:11px 14px}
+  .cert-name{font-size:1.4rem!important}
+}
+
+/* ---- 361–480px — typical phones ---- */
+@media(min-width:361px) and (max-width:480px){
+  html{font-size:15px}
+  .stats-grid{grid-template-columns:repeat(2,1fr)!important}
+}
+
+/* ---- 481–767px — large phones / small tablets ---- */
+@media(min-width:481px){
+  html{font-size:15.5px}
+  .deeds-grid{grid-template-columns:repeat(3,1fr)!important}
+  .stats-grid{grid-template-columns:repeat(4,1fr)!important}
+  .ach-grid{grid-template-columns:repeat(4,1fr)!important}
+  .shop-grid{grid-template-columns:repeat(3,1fr)!important}
+  #app{max-width:540px}
+  #nav{max-width:540px}
+}
+
+/* ---- 768px+ — tablets ---- */
+@media(min-width:768px){
+  html{font-size:16.5px}
+  .screen{padding:22px 20px}
+  #app{max-width:620px}
+  #nav{max-width:620px}
+  .ptab-btn{font-size:0.85rem;padding:12px 8px}
+}
+
+/* ---- 1024px+ — desktop ---- */
+@media(min-width:1024px){
+  html{font-size:17px}
+  #app{max-width:700px}
+  #nav{max-width:700px}
+}
+  #sync-indicator{position:fixed;top:8px;left:50%;transform:translateX(-50%);background:var(--accent);color:#000;padding:3px 12px;border-radius:18px;font-size:0.72rem;font-weight:700;opacity:0;transition:opacity .3s;z-index:999;pointer-events:none}
+  #sync-indicator.syncing{opacity:1}
+  /* ============ RESPONSIVE BREAKPOINTS ============ */
+@media(max-width:375px){html{font-size:14px}.timer-display{font-size:2.2rem}.cert-name{font-size:1.5rem}}
+@media(min-width:600px){.deeds-grid{grid-template-columns:repeat(3,1fr)}.stats-grid{grid-template-columns:repeat(4,1fr)}.ach-grid{grid-template-columns:repeat(4,1fr)}.shop-grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:768px){html{font-size:17px}#app{max-width:600px}#nav{max-width:600px}.screen{padding:24px 20px}}
+@media(min-width:1024px){html{font-size:18px}#app{max-width:680px}#nav{max-width:680px}}
+/* Prevent horizontal overflow */
+*{max-width:100%;word-break:break-word}
+
+/* ============ SCREENS ============ */
+.screen{display:none;flex-direction:column;padding:20px 16px;min-height:calc(100vh - 80px);animation:fadeIn .2s ease}
+.screen.active{display:flex}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.screen-title{font-size:1.3rem;font-weight:900;color:var(--accent);margin-bottom:16px;text-align:center}
+
+/* ============ BUTTONS ============ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:13px 20px;border-radius:var(--r);border:none;font-family:var(--font);
+  font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s;min-height:44px;
+}
+.btn:active{transform:scale(0.95);opacity:0.9}
+.btn-block{width:100%}
+.btn-lg{padding:16px 24px;font-size:1.1rem;border-radius:22px}
+.btn-sm{padding:9px 13px;font-size:0.85rem;border-radius:11px;min-height:40px}
+.btn-primary{background:var(--accent);color:var(--text-on-accent)}
+.btn-secondary{background:var(--teal);color:var(--text-on-accent)}
+.btn-danger{background:var(--rose);color:#fff}
+.btn-ghost{background:var(--surf);color:var(--text);border:1.5px solid var(--bdr)}
+.btn-outline{background:transparent;color:var(--accent);border:2px solid var(--accent)}
+.btn-success{background:var(--green);color:#fff}
+.btn:disabled{opacity:0.4;cursor:not-allowed;transform:none}
+
+/* ============ CARDS / FORMS ============ */
+.card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:16px;margin-bottom:10px}
+.card-accent{border-color:var(--accent);background:rgba(240,180,41,0.06)}
+input,textarea,select{
+  width:100%;padding:11px 13px;background:var(--surf);border:1.5px solid var(--bdr);
+  border-radius:12px;color:var(--text);font-family:var(--font);font-size:1rem;outline:none;min-height:44px;
+}
+input:focus,textarea:focus,select:focus{border-color:var(--accent)}
+select option{background:var(--bg2);color:var(--text)}
+input[type=range]{-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;background:var(--surf2);padding:0;border:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--accent);cursor:pointer}
+
+/* ============ UTILS ============ */
+.hidden{display:none!important}
+.flex{display:flex;align-items:center}
+.flex-col{display:flex;flex-direction:column}
+.gap-6{gap:6px}.gap-8{gap:8px}.gap-10{gap:10px}.gap-12{gap:12px}
+.mt-8{margin-top:8px}.mt-12{margin-top:12px}.mt-16{margin-top:16px}
+.mb-8{margin-bottom:8px}.mb-12{margin-bottom:12px}
+.text-center{text-align:center}.text-sm{font-size:0.88rem}.text-xs{font-size:0.74rem}
+.text-muted{color:var(--muted)}.bold{font-weight:700}.text-accent{color:var(--accent)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+
+/* ============ WELCOME ============ */
+.welcome-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center;padding:20px 0}
+.welcome-moon{font-size:5rem;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.welcome-title{font-size:2.1rem;font-weight:900;font-family:'Amiri',serif;line-height:1.2;color:var(--accent)}
+.welcome-sub{color:var(--muted);font-size:0.95rem}
+.profile-entry-btn{background:var(--surf);border:1.5px solid var(--bdr);border-radius:16px;padding:11px 14px;display:flex;align-items:center;gap:12px;width:100%;color:var(--text);font-family:var(--font);font-size:0.95rem;font-weight:700;cursor:pointer}
+.profile-entry-btn:active{transform:scale(0.97)}
+
+/* ============ SETUP ============ */
+.setup-step{display:none;flex-direction:column;gap:12px;flex:1}
+.setup-step.active{display:flex}
+.step-hdr{text-align:center;margin-bottom:6px}
+.step-icon{font-size:3rem}
+.avatar-tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:8px}
+.avatar-tab{flex-shrink:0;padding:5px 12px;border-radius:20px;border:1.5px solid var(--bdr);background:var(--surf);font-size:0.8rem;cursor:pointer;color:var(--muted);font-family:var(--font);font-weight:700}
+.avatar-tab.active{background:var(--accent);color:var(--text-on-accent);border-color:var(--accent)}
+.avatar-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.av-btn{aspect-ratio:1;background:var(--surf);border:2px solid var(--bdr);border-radius:12px;font-size:1.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.av-btn.selected{border-color:var(--accent);background:rgba(240,180,41,0.12);transform:scale(1.1)}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hero-btn{background:var(--surf);border:2px solid var(--bdr);border-radius:14px;padding:12px 8px;text-align:center;cursor:pointer;transition:all .15s}
+.hero-btn.selected{border-color:var(--accent);background:rgba(240,180,41,0.12)}
+.hero-icon{font-size:1.8rem}
+.color-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.color-sw{aspect-ratio:1;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .15s;min-height:34px}
+.color-sw.selected{border-color:var(--text);transform:scale(1.2)}
+.diff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.diff-btn{background:var(--surf);border:2px solid var(--bdr);border-radius:14px;padding:14px 6px;text-align:center;cursor:pointer;transition:all .15s}
+.diff-btn.selected{border-color:var(--accent);background:rgba(240,180,41,0.12)}
+.slider-lbl{display:flex;justify-content:space-between;font-weight:700;font-size:0.9rem;margin-bottom:5px}
+.slider-val{color:var(--accent);font-weight:900}
+.total-info{text-align:center;padding:8px 12px;border-radius:12px;background:var(--surf);font-size:0.85rem;font-weight:700;color:var(--teal)}
+
+/* ============ NAV ============ */
+#nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;background:var(--bg2);border-top:1px solid var(--bdr);display:none;grid-template-columns:repeat(5,1fr);z-index:100;padding-bottom:env(safe-area-inset-bottom,0)}
+#nav.show{display:grid}
+.nav-btn{display:flex;flex-direction:column;align-items:center;padding:10px 2px;background:none;border:none;color:var(--muted);font-family:var(--font);font-size:0.68rem;cursor:pointer;gap:2px;transition:color .15s;min-height:52px}
+.nav-btn.active{color:var(--accent)}
+.nav-i{font-size:1.25rem}
+
+/* ============ HOME ============ */
+.home-hdr{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.home-av{font-size:2.8rem;cursor:pointer}
+.home-name{font-size:1.25rem;font-weight:900}
+.home-greet{font-size:0.82rem;color:var(--muted)}
+.day-badge{background:var(--accent);color:var(--text-on-accent);font-weight:900;padding:4px 12px;border-radius:20px;font-size:0.88rem;white-space:nowrap;flex-shrink:0}
+.timer-card{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:2px solid var(--accent);border-radius:24px;padding:18px;text-align:center;margin-bottom:14px}
+.timer-lbl{color:var(--muted);font-size:0.82rem}
+.timer-name{font-size:1.05rem;font-weight:700;color:var(--accent);margin:2px 0 6px}
+.timer-display{font-size:2.8rem;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:2px}
+.prog-track{height:8px;background:var(--surf);border-radius:4px;position:relative;overflow:visible;margin-top:12px}
+.prog-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--teal),var(--accent));transition:width .5s}
+.prog-labels{display:flex;justify-content:space-between;font-size:0.72rem;color:var(--muted);margin-bottom:3px}
+.prog-marker{position:absolute;top:-4px;width:16px;height:16px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);transform:translateX(50%);transition:right .5s}
+.status-card{border-radius:16px;padding:12px 14px;margin-bottom:12px;font-size:0.9rem}
+.status-pending{background:var(--surf);border:1.5px solid var(--accent)}
+.status-success{background:rgba(82,214,138,0.1);border:1.5px solid var(--green)}
+.status-broke{background:rgba(232,93,117,0.1);border:1.5px solid var(--rose)}
+.quiz-banner{background:linear-gradient(135deg,var(--bg2),rgba(240,180,41,0.1));border:2px solid var(--accent);border-radius:18px;padding:16px;display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.section-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.section-title{font-weight:800;font-size:0.95rem}
+.badge{background:var(--accent);color:var(--text-on-accent);font-size:0.72rem;font-weight:700;padding:2px 8px;border-radius:10px}
+.deeds-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px}
+.deed-btn{background:var(--surf);border:2px solid var(--bdr);border-radius:13px;padding:10px 6px;text-align:center;cursor:pointer;transition:all .15s;font-family:var(--font);min-height:78px;position:relative;color:var(--text)}
+.deed-btn .deed-icon{font-size:1.6rem;display:block}
+.deed-btn .deed-name{font-size:0.72rem;font-weight:700;display:block;margin:4px 0 2px;color:var(--text);line-height:1.2}
+.deed-btn .deed-pts{font-size:0.68rem;color:var(--accent);font-weight:700}
+.deed-btn.done{border-color:var(--green);background:rgba(82,214,138,0.18)}
+.deed-btn.done .deed-name,.deed-btn.done .deed-pts{color:var(--text-on-done)}
+.deed-btn.pending-approval{border-color:var(--accent);background:rgba(240,180,41,0.12)}
+.deed-btn.pending-approval .deed-pts{color:var(--accent)}
+.deed-icon{font-size:1.4rem}
+.deed-name{font-size:0.74rem;font-weight:700;margin-top:3px}
+.deed-pts{font-size:0.68rem;color:var(--accent)}
+.quest-item{background:var(--surf);border:1px solid var(--bdr);border-radius:12px;padding:9px 11px;display:flex;align-items:center;gap:9px;cursor:pointer;margin-bottom:6px;font-family:var(--font);min-height:48px}
+.q-check{width:22px;height:22px;border-radius:50%;border:2px solid var(--bdr);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.72rem;font-weight:900;transition:all .15s}
+.q-check.done{background:var(--green);border-color:var(--green);color:#fff}
+.q-pts{color:var(--accent);font-weight:700;font-size:0.82rem;flex-shrink:0}
+.bad-deed-item{background:rgba(232,93,117,0.08);border:1px solid var(--rose);border-radius:11px;padding:8px 12px;display:flex;align-items:center;gap:8px;margin-bottom:5px;font-size:0.85rem}
+.pts-popup{position:fixed;font-size:1.3rem;font-weight:900;color:var(--accent);pointer-events:none;z-index:9000;animation:ptsFly 1.2s ease forwards}
+@keyframes ptsFly{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-80px) scale(1.3)}}
+.pts-neg{color:var(--rose)}
+.notif-bar{background:var(--surf);border:1px solid var(--bdr);border-radius:13px;padding:10px 13px;display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.install-bar{background:linear-gradient(135deg,rgba(240,180,41,0.12),rgba(56,201,176,0.12));border:2px solid var(--accent);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:10px;margin-bottom:10px}
+
+/* ============ PROGRESS ============ */
+.xp-bar-wrap{background:var(--surf);border:1px solid var(--bdr);border-radius:15px;padding:13px;margin-bottom:12px}
+.xp-header{display:flex;justify-content:space-between;margin-bottom:5px}
+.level-badge{background:var(--accent);color:var(--text-on-accent);padding:3px 10px;border-radius:10px;font-size:0.78rem;font-weight:700}
+.xp-track{height:10px;background:var(--surf2);border-radius:5px;overflow:hidden}
+.xp-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--accent));transition:width .5s}
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px}
+.stat-card{background:var(--surf);border:1px solid var(--bdr);border-radius:13px;padding:11px;text-align:center}
+.stat-val{font-size:1.5rem;font-weight:900;color:var(--accent)}
+.stat-lbl{font-size:0.72rem;color:var(--muted);margin-top:2px}
+.journey-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:11px;background:var(--surf);border:1px solid var(--bdr);margin-bottom:6px}
+.journey-item.done{border-color:var(--green)}
+.journey-item.current{border-color:var(--accent);background:rgba(240,180,41,0.07)}
+.ach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.ach-card{background:var(--surf);border:1px solid var(--bdr);border-radius:11px;padding:9px 5px;text-align:center}
+.ach-card.unlocked{border-color:var(--accent);background:rgba(240,180,41,0.08)}
+
+/* ============ LOG ============ */
+.log-item{background:var(--surf);border:1px solid var(--bdr);border-radius:11px;padding:9px 12px;margin-bottom:6px;font-size:0.85rem}
+.log-pending{border-color:var(--accent)}
+.log-approved{border-color:var(--green)}
+.log-rejected{border-color:var(--rose)}
+.log-meta{display:flex;justify-content:space-between;align-items:center;font-size:0.75rem;color:var(--muted);margin-top:4px}
+
+/* ============ SHOP ============ */
+.shop-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.shop-item{background:var(--surf);border:1px solid var(--bdr);border-radius:15px;padding:13px;text-align:center}
+.shop-item.owned{border-color:var(--green)}
+
+/* ============ PARENT ============ */
+.parent-lock{display:flex;flex-direction:column;align-items:center;gap:13px;text-align:center;padding:18px 0}
+.math-q{font-size:1.9rem;font-weight:900;background:var(--surf);padding:12px 24px;border-radius:14px;color:var(--accent)}
+.table-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--bdr)}
+table{width:100%;border-collapse:collapse;font-size:0.82rem}
+th{background:var(--bg3);padding:8px 10px;font-weight:700;color:var(--accent);border-bottom:1px solid var(--bdr);white-space:nowrap}
+td{padding:8px 10px;border-bottom:1px solid var(--surf);color:var(--text);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--surf)}
+.child-card{display:flex;align-items:center;gap:11px;background:var(--surf);border:1.5px solid var(--bdr);border-radius:14px;padding:11px 13px;margin-bottom:7px}
+
+/* ============ QUIZ ============ */
+.quiz-prog{height:6px;background:var(--surf);border-radius:3px;margin-bottom:13px;overflow:hidden}
+.quiz-prog-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--accent));border-radius:3px;transition:width .3s}
+.quiz-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-size:0.83rem}
+.quiz-q{background:var(--surf);border:1.5px solid var(--bdr);border-radius:15px;padding:16px;font-size:1.05rem;font-weight:700;line-height:1.6;text-align:center;margin-bottom:14px}
+.quiz-opts{display:flex;flex-direction:column;gap:9px}
+.quiz-opt{background:var(--surf);border:2px solid var(--bdr);border-radius:13px;padding:12px 15px;font-size:0.92rem;font-weight:600;color:var(--text);font-family:var(--font);text-align:right;cursor:pointer;transition:all .2s;width:100%}
+.quiz-opt:active{transform:scale(0.97)}
+.quiz-opt.correct{background:rgba(82,214,138,0.15);border-color:var(--green);color:var(--green)}
+.quiz-opt.wrong{background:rgba(232,93,117,0.15);border-color:var(--rose);color:var(--rose)}
+.quiz-opt:disabled{cursor:not-allowed}
+.quiz-fb{margin-top:11px;padding:9px 13px;border-radius:11px;font-weight:700;text-align:center;font-size:0.9rem}
+.quiz-fb.correct{background:rgba(82,214,138,0.12);color:var(--green);border:1px solid var(--green)}
+.quiz-fb.wrong{background:rgba(232,93,117,0.12);color:var(--rose);border:1px solid var(--rose)}
+.quiz-locked{text-align:center;padding:30px 20px}
+.quiz-locked-icon{font-size:3.5rem;margin-bottom:12px}
+
+/* ============ CERTIFICATE ============ */
+.cert-frame{background:linear-gradient(160deg,#1a2a5e,#0f1b3d,#1a0a3d);border:3px solid var(--accent);border-radius:24px;padding:26px 18px;text-align:center;position:relative;overflow:hidden}
+[data-theme="day"] .cert-frame,[data-theme="girls"] .cert-frame,[data-theme="boys"] .cert-frame{background:linear-gradient(160deg,var(--bg2),var(--bg3))}
+.cert-frame::before{content:'';position:absolute;inset:6px;border:1px solid rgba(240,180,41,0.3);border-radius:18px;pointer-events:none}
+.cert-name{font-size:1.9rem;font-weight:900;font-family:'Amiri',serif}
+.cert-row{display:flex;justify-content:center;gap:20px;font-size:0.95rem;font-weight:700;color:var(--teal);margin:10px 0}
+
+/* ============ THEME PREVIEW ============ */
+.theme-preview{background:var(--surf);border:1px solid var(--bdr);border-radius:14px;padding:13px;margin-bottom:8px}
+.theme-preview-title{font-weight:800;font-size:0.9rem;color:var(--accent);margin-bottom:8px}
+.preview-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+
+/* ============ THEME SWITCHER ============ */
+.theme-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0}
+.theme-btn{border-radius:13px;padding:11px 5px;font-family:var(--font);font-size:0.78rem;font-weight:700;cursor:pointer;border:2px solid transparent;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:3px}
+.theme-btn:active{transform:scale(0.95)}
+.theme-btn.active{border-color:var(--text)!important;transform:scale(1.05)}
+.t-night{background:linear-gradient(135deg,#1a2951,#0f1b3d);color:#f0e6d3}
+.t-day{background:linear-gradient(135deg,#fff3d0,#f5f0e8);color:#1a1000;border-color:#8a5c00}
+.t-girls{background:linear-gradient(135deg,#ffe6f0,#fff0f6);color:#2a0018;border-color:#c0006a}
+.t-boys{background:linear-gradient(135deg,#d5eedd,#eaf5ec);color:#0a180a;border-color:#1a6b00}
+
+/* ============ MODAL ============ */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.72);z-index:500;display:flex;align-items:flex-end;justify-content:center;animation:fadeIn .2s}
+.overlay.center{align-items:center}
+.sheet{background:var(--bg2);border-radius:24px 24px 0 0;padding:18px 15px 30px;width:100%;max-width:480px;border-top:1px solid var(--bdr);max-height:88vh;overflow-y:auto}
+.sheet.center-sheet{border-radius:20px;margin:16px}
+.sheet-handle{width:38px;height:4px;background:var(--surf2);border-radius:2px;margin:0 auto 14px}
+.modal-title{font-size:1.05rem;font-weight:800;color:var(--accent);margin-bottom:13px;text-align:center}
+
+/* ============ TOAST & CONFETTI ============ */
+#toast{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-10px);background:var(--bg2);border:1.5px solid var(--accent);border-radius:20px;padding:9px 18px;font-size:0.88rem;font-weight:700;z-index:9999;white-space:nowrap;max-width:90vw;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:all .3s}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.conf-p{position:fixed;pointer-events:none;z-index:9998;border-radius:2px;animation:confFall linear forwards}
+@keyframes confFall{0%{transform:translateY(-10px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+
+/* ============ EID ============ */
+.eid-wrap{text-align:center;padding:26px 18px}
+.winner-card{background:linear-gradient(135deg,rgba(240,180,41,0.15),rgba(56,201,176,0.1));border:2px solid var(--accent);border-radius:18px;padding:16px;margin:12px 0}
+
+/* ============ PRINT ============ */
+@media print{body *{visibility:hidden}#screen-certificate,#screen-certificate *{visibility:visible}#screen-certificate{position:fixed;top:0;left:0;right:0;bottom:0}nav,.btn,button{display:none!important}}
+</style>
+</head>
+<body data-theme="night">
+<div id="sync-indicator">🔄 تحديث...</div>
+<div id="app">
+
+<!-- ===== WELCOME ===== -->
+<!-- ===== LANDING (Role Selection) ===== -->
+<div id="screen-welcome" class="screen active">
+  <div class="welcome-wrap" style="gap:14px">
+    <div class="welcome-moon">🌙</div>
+    <h1 class="welcome-title">مغامرة<br>الصائم الصغير</h1>
+    <p class="welcome-sub">رمضان مبارك 1447 هـ 🤲</p>
+
+    <!-- WHO ARE YOU? -->
+    <div style="width:100%;max-width:320px">
+      <p class="bold text-center mb-8" style="font-size:1.05rem">من أنت؟</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+
+        <!-- KID CARD -->
+        <button id="btn-role-kid" style="background:linear-gradient(145deg,rgba(240,180,41,0.18),rgba(240,180,41,0.05));border:2px solid var(--accent);border-radius:18px;padding:22px 10px;cursor:pointer;font-family:var(--font);transition:transform .15s,box-shadow .15s;display:flex;flex-direction:column;align-items:center;gap:8px" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          <span style="font-size:3rem">🧒</span>
+          <span class="bold" style="font-size:1rem;color:var(--accent)">أنا طفل</span>
+          <span class="text-xs text-muted">العب وتنافس!</span>
+        </button>
+
+        <!-- PARENT CARD -->
+        <button id="btn-role-parent" style="background:linear-gradient(145deg,rgba(56,201,176,0.18),rgba(56,201,176,0.05));border:2px solid var(--teal);border-radius:18px;padding:22px 10px;cursor:pointer;font-family:var(--font);transition:transform .15s,box-shadow .15s;display:flex;flex-direction:column;align-items:center;gap:8px" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          <span style="font-size:3rem">👨‍👩‍👧</span>
+          <span class="bold" style="font-size:1rem;color:var(--teal)">أنا وليّ أمر</span>
+          <span class="text-xs text-muted">تابع أطفالك</span>
+        </button>
+
+      </div>
+
+      <!-- existing kids (shown when profiles exist) -->
+      <div id="existing-profiles" style="display:flex;flex-direction:column;gap:8px;margin-bottom:8px"></div>
+
+      <button class="btn btn-ghost btn-block btn-sm" id="btn-welcome-theme" style="margin-bottom:6px">🎨 اختر المظهر</button>
+      <button class="btn btn-ghost btn-block btn-sm" id="btn-enter-code">🔗 لديّ رمز عائلة</button>
+
+      <div id="install-bar-welcome" class="install-bar hidden" style="margin-top:10px">
+        <span style="font-size:1.6rem">📲</span>
+        <div style="flex:1"><div class="bold text-sm">ثبّت التطبيق على جهازك</div><div class="text-xs text-muted">يعمل بدون إنترنت!</div></div>
+        <button class="btn btn-primary btn-sm" id="btn-install">تثبيت</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SETUP ===== -->
+<div id="screen-setup" class="screen">
+  <div class="flex gap-8 mb-12">
+    <button class="btn btn-ghost btn-sm" id="btn-back-welcome">← رجوع</button>
+    <div style="flex:1;text-align:center" class="bold text-accent">إنشاء ملفك 🌟</div>
+  </div>
+  <!-- Step 0 -->
+  <div class="setup-step active" data-step="0">
+    <div class="step-hdr"><div class="step-icon">👋</div><h2>أهلاً بك!</h2><p class="text-muted text-sm">أخبرنا عنك</p></div>
+    <div class="flex-col gap-12">
+      <div><label class="bold text-sm">اسمك</label><input type="text" id="s-name" placeholder="اكتب اسمك هنا..." maxlength="30" autocomplete="off" style="margin-top:5px"></div>
+      <div><label class="bold text-sm">عمرك</label><input type="number" id="s-age" placeholder="عمرك..." min="3" max="16" value="8" style="margin-top:5px"></div>
+    </div>
+    <button class="btn btn-primary btn-lg btn-block mt-16" id="btn-s0">التالي ←</button>
+  </div>
+  <!-- Step 1 -->
+  <div class="setup-step" data-step="1">
+    <div class="step-hdr"><div class="step-icon">🎭</div><h2>اختر صورتك</h2></div>
+    <div class="avatar-tabs" id="av-tabs"></div>
+    <div class="avatar-grid" id="av-grid"></div>
+    <div style="margin-top:12px"><div class="bold text-sm mb-8">اللون المفضل</div><div class="color-grid" id="col-grid"></div></div>
+    <button class="btn btn-primary btn-lg btn-block mt-16" id="btn-s1">التالي ←</button>
+  </div>
+  <!-- Step 2 -->
+  <div class="setup-step" data-step="2">
+    <div class="step-hdr"><div class="step-icon">⭐</div><h2>اختر شخصيتك</h2></div>
+    <div class="hero-grid" id="hero-grid"></div>
+    <button class="btn btn-primary btn-lg btn-block mt-16" id="btn-s2">التالي ←</button>
+  </div>
+  <!-- Step 3 -->
+  <div class="setup-step" data-step="3">
+    <div class="step-hdr"><div class="step-icon">⚡</div><h2>مستوى التحدي</h2></div>
+    <div class="diff-grid">
+      <div class="diff-btn selected" data-d="easy"><div style="font-size:1.8rem">🌸</div><div class="bold">سهل</div><div class="text-xs text-muted">للمبتدئين</div></div>
+      <div class="diff-btn" data-d="normal"><div style="font-size:1.8rem">⭐</div><div class="bold">عادي</div><div class="text-xs text-muted">للشجعان</div></div>
+      <div class="diff-btn" data-d="hero"><div style="font-size:1.8rem">🏆</div><div class="bold">بطل</div><div class="text-xs text-muted">للأبطال!</div></div>
+    </div>
+    <button class="btn btn-primary btn-lg btn-block mt-16" id="btn-s3">التالي ←</button>
+  </div>
+  <!-- Step 4 -->
+  <div class="setup-step" data-step="4">
+    <div class="step-hdr"><div class="step-icon">🗓️</div><h2>خطتك لرمضان</h2><p class="text-muted text-sm">المجموع لا يتجاوز 30 يوماً</p></div>
+    <div class="flex-col gap-10">
+      <div class="card"><div class="slider-lbl"><span>🕛 أيام الظهر</span><span class="slider-val" id="lbl-d">15 يوم</span></div><input type="range" id="sl-d" min="0" max="30" value="15"></div>
+      <div class="card"><div class="slider-lbl"><span>🕒 أيام العصر</span><span class="slider-val" id="lbl-a">10 يوم</span></div><input type="range" id="sl-a" min="0" max="30" value="10"></div>
+      <div class="card"><div class="slider-lbl"><span>🌅 أيام المغرب</span><span class="slider-val" id="lbl-m">5 يوم</span></div><input type="range" id="sl-m" min="0" max="30" value="5"></div>
+    </div>
+    <div class="total-info" id="total-info">✅ المجموع: 30 يوماً</div>
+    <button class="btn btn-primary btn-lg btn-block mt-16" id="btn-s4">🎉 ابدأ رمضان!</button>
+  </div>
+</div>
+
+<!-- ===== HOME ===== -->
+<div id="screen-home" class="screen">
+  <div class="home-hdr">
+    <div class="home-av" id="h-av">🌙</div>
+    <div style="flex:1;min-width:0">
+      <div class="home-greet" id="h-greet">رمضان مبارك</div>
+      <div class="home-name" id="h-name">المغامر</div>
+    </div>
+    <div class="day-badge" id="h-day">يوم 1</div>
+  </div>
+  <div id="notif-bar" class="notif-bar hidden"><span style="font-size:1.3rem">🔔</span><span style="flex:1;font-size:0.83rem">فعّل التنبيهات لتذكيرك بوقت الإفطار!</span><button class="btn btn-secondary btn-sm" id="btn-notif">فعّل</button></div>
+  <div id="status-card" class="status-card status-pending"></div>
+  <div class="timer-card">
+    <div class="timer-lbl">العد التنازلي حتى</div>
+    <div class="timer-name" id="t-name">الهدف: المغرب</div>
+    <div class="timer-display" id="t-main">00:00:00</div>
+    <div style="font-size:0.82rem;color:var(--muted);margin-top:3px" id="t-sub">💪 استمر!</div>
+    <div class="prog-labels mt-8"><span>الفجر</span><span>المغرب</span></div>
+    <div class="prog-track"><div class="prog-fill" id="p-fill" style="width:0%"></div><div class="prog-marker" id="p-marker" style="right:50%"></div></div>
+  </div>
+  <div id="bonus-card" class="status-card status-success hidden flex" style="align-items:center;gap:12px">
+    <div style="flex:1"><div class="bold text-sm">🌟 بونص حتى المغرب!</div><div id="bonus-timer" class="text-sm" style="color:var(--teal)">00:00:00</div></div>
+    <button class="btn btn-success btn-sm" id="btn-maghrib">اطلب المكافأة!</button>
+  </div>
+  <div class="quiz-banner">
+    <div style="flex:1"><div class="bold">🧠 مسابقة اليوم</div><div class="text-xs text-muted" id="quiz-banner-sub">10 أسئلة رمضانية</div></div>
+    <button class="btn btn-primary btn-sm" id="btn-quiz">ابدأ!</button>
+  </div>
+  <div class="section-hdr"><div class="section-title">🌟 أعمالي الحسنة</div><div class="badge">+نقاط</div></div>
+  <div class="deeds-grid" id="deeds-grid"></div>
+  <div id="bad-deeds-section" class="hidden">
+    <div class="section-hdr mt-12"><div class="section-title" style="color:var(--rose)">⚠️ ملاحظات الوالدين</div></div>
+    <div id="bad-deeds-list"></div>
+  </div>
+  <div class="section-hdr mt-8"><div class="section-title">📋 مهام اليوم</div><div class="badge" id="q-badge">0/7</div></div>
+  <div id="quest-list"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px">
+    <button class="btn btn-ghost btn-sm" id="btn-night">🌙 المظهر</button>
+    <button class="btn btn-ghost btn-sm" id="btn-cert-home">🏅 شهادتي</button>
+  </div>
+</div>
+
+<!-- ===== PROGRESS ===== -->
+<div id="screen-progress" class="screen">
+  <div class="screen-title">🗺️ رحلتي في رمضان</div>
+
+  <!-- Stats bar -->
+  <div class="xp-bar-wrap"><div class="xp-header"><span class="bold">مستواك</span><span class="level-badge" id="pr-level">مبتدئ 🌱</span></div><div class="xp-track"><div class="xp-fill" id="pr-xp" style="width:0%"></div></div><div class="text-xs text-muted mt-8" id="pr-xp-lbl">0 / 200 نقطة</div></div>
+  <div class="stats-grid" style="margin-bottom:16px">
+    <div class="stat-card"><div class="stat-val" id="st-pts">0</div><div class="stat-lbl">مجموع النقاط</div></div>
+    <div class="stat-card"><div class="stat-val" id="st-streak">0🔥</div><div class="stat-lbl">أيام متتالية</div></div>
+    <div class="stat-card"><div class="stat-val" id="st-days">0</div><div class="stat-lbl">أيام ناجحة</div></div>
+    <div class="stat-card"><div class="stat-val" id="st-grace">3</div><div class="stat-lbl">درع الحماية</div></div>
+  </div>
+
+  <!-- ====== JOURNEY (levels) ====== -->
+  <div class="section-hdr"><div class="section-title">🗺️ مسيرة المغامرة</div></div>
+  <div id="journey-list"></div>
+
+  <!-- Achievements -->
+  <div class="section-hdr mt-12"><div class="section-title">🏅 الأوسمة</div></div>
+  <div class="ach-grid" id="ach-grid"></div>
+  <div class="section-hdr mt-12"><div class="section-title">📋 سجل الأعمال</div></div>
+  <div id="activity-log"></div>
+</div>
+
+<!-- ===== SHOP ===== -->
+<div id="screen-shop" class="screen">
+  <div class="screen-title">🏪 المتجر</div>
+  <div style="background:linear-gradient(135deg,rgba(56,201,176,0.15),rgba(240,180,41,0.1));border:1.5px solid var(--teal);border-radius:13px;padding:10px 14px;text-align:center;margin-bottom:12px">
+    <div class="text-xs text-muted mb-8">المتجر يستخدم 💎 الجواهر فقط — نقاط التنافس لا تتأثر</div>
+    <span style="font-size:1.4rem">💎</span> <span class="bold" style="font-size:1.3rem;color:var(--teal)" id="shop-gems">0</span> <span class="text-muted text-sm">جوهرة</span>
+    <span style="margin-right:12px" class="text-xs text-muted">| نقاط التنافس: <span class="text-accent bold" id="shop-comp-pts">0</span></span>
+  </div>
+  <div class="shop-grid" id="shop-grid"></div>
+</div>
+
+<!-- ===== PROFILES / FAMILY ===== -->
+<div id="screen-profiles" class="screen">
+  <div class="screen-title">🏆 ترتيب العائلة</div>
+  <p class="text-xs text-muted text-center mb-12">نقاط جميع أفراد العائلة — للمشاهدة فقط</p>
+  <div id="profiles-list"></div>
+  <p class="text-xs text-muted text-center mt-12" style="opacity:0.6">تنافس ودي — كل جهاز حسابه الخاص 🏠</p>
+</div>
+
+<!-- ===== QUIZ ===== -->
+<div id="screen-quiz" class="screen">
+  <div class="flex gap-8 mb-12"><button class="btn btn-ghost btn-sm" id="btn-quiz-back">← رجوع</button><div class="screen-title" style="flex:1;margin:0">🧠 مسابقة رمضان</div></div>
+  <!-- 29-day quiz path map — shown before quiz starts -->
+  <div id="quiz-path-map"></div>
+  <div id="quiz-container"></div>
+</div>
+
+<!-- ===== CERTIFICATE ===== -->
+<div id="screen-certificate" class="screen">
+  <div class="flex gap-8 mb-12"><button class="btn btn-ghost btn-sm" id="btn-cert-back">← رجوع</button><button class="btn btn-secondary btn-sm" onclick="window.print()">🖨️ طباعة</button></div>
+  <div class="screen-title">📜 شهادة التقدير</div>
+  <div class="cert-frame">
+    <!-- FIX: بسم الله at TOP -->
+    <div style="font-family:'Amiri',serif;font-size:1.1rem;color:var(--accent);font-weight:700;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(240,180,41,0.3)">بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيم 🤲</div>
+    <div style="font-size:2.3rem;margin-bottom:6px">🌙</div>
+    <div style="font-family:'Amiri',serif;font-size:1.2rem;color:var(--accent);font-weight:700;margin-bottom:6px">شهادة صائم صغير متميز</div>
+    <div style="font-size:2.8rem;margin:6px 0" id="cert-av">🌙</div>
+    <div class="cert-name" id="cert-name">—</div>
+    <div style="display:inline-block;background:rgba(240,180,41,0.15);border:1px solid var(--accent);color:var(--accent);padding:3px 13px;border-radius:18px;font-size:0.82rem;margin:5px 0" id="cert-level">—</div>
+    <div class="text-muted text-sm" style="margin:5px 0">أتم بنجاح</div>
+    <div style="font-size:1.7rem;font-weight:900;color:var(--accent)" id="cert-days">0 يوم</div>
+    <!-- FIX: شهر رمضان المبارك -->
+    <div class="text-muted text-sm">من شهر رمضان المبارك 1447 هـ</div>
+    <div class="cert-row"><div><span id="cert-pts">0</span> نقطة</div><div><span id="cert-streak">0</span> يوم متتالي 🔥</div></div>
+    <div class="text-xs text-muted" id="cert-date"></div>
+  </div>
+  <div class="card mt-12"><div class="section-title mb-8">🏆 ترتيب العائلة</div><div id="cert-ranks"></div></div>
+</div>
+
+<!-- ===== PARENT ===== -->
+<div id="screen-parent" class="screen">
+  <div class="flex gap-8 mb-12"><button class="btn btn-ghost btn-sm" id="btn-parent-back">← رجوع</button><div class="screen-title" style="flex:1;margin:0">لوحة الوالدين 🔒</div></div>
+
+  <!-- FIRST TIME: Create PIN -->
+  <div id="parent-create-pin" class="parent-lock hidden">
+    <div style="font-size:3.5rem">🔐</div>
+    <h3 style="margin:0 0 6px">إنشاء رقم سري للوالدين</h3>
+    <p class="text-muted text-sm" style="margin:0 0 16px;max-width:260px;text-align:center">هذا الرقم يُحفظ على جهازك فقط ولا يراه الأطفال</p>
+    <input type="password" id="pin-create-1" placeholder="أدخل رقماً سرياً (4+ أرقام)" inputmode="numeric" maxlength="8"
+      style="max-width:220px;text-align:center;font-size:1.5rem;letter-spacing:6px;margin-bottom:10px">
+    <input type="password" id="pin-create-2" placeholder="أعد الإدخال للتأكيد" inputmode="numeric" maxlength="8"
+      style="max-width:220px;text-align:center;font-size:1.5rem;letter-spacing:6px;margin-bottom:14px">
+    <button class="btn btn-primary" id="btn-save-pin">💾 حفظ الرقم السري</button>
+  </div>
+
+  <!-- RETURNING: Enter PIN -->
+  <div id="parent-lock" class="parent-lock hidden">
+    <div style="font-size:3.5rem">🔑</div>
+    <h3 style="margin:0 0 6px">أدخل الرقم السري</h3>
+    <p class="text-muted text-sm" style="margin:0 0 16px">للوالدين فقط</p>
+    <input type="password" id="math-ans" placeholder="••••" inputmode="numeric" maxlength="8"
+      style="max-width:180px;text-align:center;font-size:1.8rem;letter-spacing:8px">
+    <button class="btn btn-primary" id="btn-pin">دخول ←</button>
+    <button class="btn btn-ghost btn-sm" id="btn-forgot-pin" style="margin-top:8px;font-size:0.8rem">نسيت الرقم؟ (إعادة ضبط)</button>
+  </div>
+  <div id="parent-panel" class="hidden flex-col gap-10">
+    <!-- Tabs: 3 per row, 2 rows -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px">
+      <button class="ptab-btn active" data-tab="children" id="ptab-children">👶<br><span>الأطفال</span></button>
+      <button class="ptab-btn" data-tab="deeds" id="ptab-deeds">✅<br><span>الأعمال</span></button>
+      <button class="ptab-btn" data-tab="fasting" id="ptab-fasting">🌙<br><span>الصيام</span></button>
+      <button class="ptab-btn" data-tab="questions" id="ptab-questions">🧠<br><span>الأسئلة</span></button>
+      <button class="ptab-btn" data-tab="rewards" id="ptab-rewards">🎁<br><span>المكافآت</span></button>
+      <button class="ptab-btn" data-tab="settings" id="ptab-settings">⚙️<br><span>الإعدادات</span></button>
+    </div>
+    <!-- Children tab -->
+    <div id="ptab-children-content">
+      <div id="parent-children-list"></div>
+      <div class="card mt-8">
+        <div class="bold mb-8">🔗 رمز الربط بالعائلة</div>
+        <p class="text-sm text-muted mb-8">أعطِ هذا الرمز لأي طفل ليدخل من جهازه</p>
+        <div style="font-size:2rem;font-weight:900;color:var(--accent);text-align:center;letter-spacing:6px;background:var(--surf);border-radius:12px;padding:12px" id="family-code">——</div>
+        <div id="supabase-status" style="text-align:center;font-size:0.75rem;margin:8px 0;padding:6px;border-radius:8px;background:var(--surf2)">
+          ⏳ جارٍ التحقق من الاتصال...
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px">
+          <button class="btn btn-ghost btn-sm" id="btn-regen-code">🔄 رمز جديد</button>
+          <button class="btn btn-primary btn-sm" id="btn-test-conn">📡 اختبار الاتصال</button>
+        </div>
+      </div>
+    </div>
+    <!-- Deeds/Log tab -->
+    <div id="ptab-deeds-content" class="hidden">
+      <div class="card">
+        <div class="bold mb-8">⚠️ إضافة ملاحظة سلبية</div>
+        <select id="bad-deed-select" style="margin-bottom:7px"><option value="">اختر السلوك...</option></select>
+        <select id="bad-deed-child" style="margin-bottom:7px"><option value="">اختر الطفل...</option></select>
+        <button class="btn btn-danger btn-block btn-sm" id="btn-add-bad">➕ إضافة الملاحظة</button>
+      </div>
+      <div class="card mt-8">
+        <div class="bold mb-8">✅ طلبات الأعمال الحسنة</div>
+        <div id="pending-deeds-list"><p class="text-muted text-sm text-center">لا توجد طلبات معلقة</p></div>
+      </div>
+      <div class="card mt-8">
+        <div class="flex gap-8 mb-8"><div class="bold" style="flex:1">📋 سجل الأعمال</div><select id="log-filter-child" style="width:auto;padding:4px 8px;font-size:0.8rem"><option value="">الكل</option></select></div>
+        <div id="parent-log-list"></div>
+      </div>
+      <div class="card mt-8">
+        <div class="bold mb-8">✏️ تعديل نقاط</div>
+        <select id="edit-pts-child" style="margin-bottom:6px"><option value="">اختر الطفل...</option></select>
+        <div class="flex gap-6">
+          <input type="number" id="edit-pts-val" placeholder="عدد النقاط..." style="flex:1">
+          <button class="btn btn-success btn-sm" id="btn-add-pts">+ إضافة</button>
+          <button class="btn btn-danger btn-sm" id="btn-rem-pts">- خصم</button>
+        </div>
+      </div>
+      <div class="card mt-8">
+        <div class="bold mb-8">💎 منح جواهر</div>
+        <p class="text-xs text-muted mb-8">الجواهر تُستخدم في المتجر ولا تؤثر على نقاط التنافس</p>
+        <select id="edit-gems-child" style="margin-bottom:6px"><option value="">اختر الطفل...</option></select>
+        <div class="flex gap-6">
+          <input type="number" id="edit-gems-val" placeholder="عدد الجواهر..." style="flex:1" min="1">
+          <button class="btn btn-primary btn-sm" id="btn-add-gems">💎 منح</button>
+          <button class="btn btn-danger btn-sm" id="btn-rem-gems">- خصم</button>
+        </div>
+      </div>
+    </div>
+    <!-- Questions tab -->
+    <div id="ptab-fasting-content" class="hidden">
+      <div class="card">
+        <div class="bold mb-8">🌙 تعديل حالة صيام طفل</div>
+        <p class="text-sm text-muted mb-8">يمكنك تعديل سبب الإفطار وتحديث النقاط</p>
+        <select id="fasting-child-select" style="margin-bottom:10px"><option value="">اختر الطفل...</option></select>
+        <div id="fasting-current-status" class="hidden" style="background:var(--surf2);border-radius:11px;padding:9px 12px;margin-bottom:10px;font-size:0.85rem">الحالة: <span id="fasting-status-label" class="bold text-accent">—</span></div>
+        <div class="bold text-sm mb-8">تغيير الحالة:</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+          <button class="btn btn-ghost btn-sm" data-fasting-reason="intentional">😞 متعمد<br><span class="text-xs text-muted">خصم 50 نقطة</span></button>
+          <button class="btn btn-ghost btn-sm" data-fasting-reason="sick">🤒 مريض<br><span class="text-xs text-muted">نقاط حسب المدة</span></button>
+          <button class="btn btn-ghost btn-sm" data-fasting-reason="tired">😴 تعب<br><span class="text-xs text-muted">50% النقاط</span></button>
+          <button class="btn btn-ghost btn-sm" data-fasting-reason="forgot">😅 نسيان<br><span class="text-xs text-muted">بدون خصم</span></button>
+        </div>
+        <button class="btn btn-primary btn-block btn-sm" id="btn-update-fasting">💾 تطبيق التغيير</button>
+      </div>
+      <div class="card mt-8">
+        <div class="bold mb-8">📋 سجل الصيام</div>
+        <div id="fasting-log-list"><p class="text-muted text-sm text-center">اختر طفلاً أولاً</p></div>
+      </div>
+    </div>
+    <!-- Questions tab -->
+    <div id="ptab-questions-content" class="hidden">
+      <div class="card">
+        <div class="bold mb-8">➕ إضافة سؤال مخصص</div>
+        <input type="text" id="cq-q" placeholder="نص السؤال..." maxlength="200" style="margin-bottom:6px">
+        <div class="grid2" style="gap:6px;margin-bottom:6px">
+          <input type="text" id="cq-a" placeholder="خيار 1"><input type="text" id="cq-b" placeholder="خيار 2">
+          <input type="text" id="cq-c" placeholder="خيار 3"><input type="text" id="cq-d" placeholder="خيار 4">
+        </div>
+        <select id="cq-correct" style="margin-bottom:6px">
+          <option value="0">✅ الإجابة الصحيحة: خيار 1</option><option value="1">✅ الإجابة الصحيحة: خيار 2</option>
+          <option value="2">✅ الإجابة الصحيحة: خيار 3</option><option value="3">✅ الإجابة الصحيحة: خيار 4</option>
+        </select>
+        <div class="flex gap-6">
+          <select id="cq-diff" style="flex:1"><option value="easy">سهل (+10)</option><option value="medium">متوسط (+15)</option><option value="hard">صعب (+25)</option></select>
+          <button class="btn btn-primary btn-sm" id="btn-add-cq">➕ إضافة</button>
+        </div>
+      </div>
+      <div class="card mt-8">
+        <div class="flex gap-8 mb-8">
+          <div class="bold" style="flex:1">📚 الأسئلة المخصصة (<span id="cq-count">0</span>)</div>
+          <input type="text" id="cq-search" placeholder="بحث..." style="width:130px;padding:5px 8px;font-size:0.8rem">
+        </div>
+        <div id="cq-list"></div>
+      </div>
+      <div class="card mt-8">
+        <div class="bold mb-8">⏰ توقيت المسابقة اليومية</div>
+        <div class="flex gap-8">
+          <select id="quiz-hour" style="flex:1">
+            <option value="14">الساعة 2 ظهراً</option><option value="15">الساعة 3 عصراً</option>
+            <option value="16" selected>الساعة 4 عصراً</option><option value="17">الساعة 5 مساءً</option>
+          </select>
+          <button class="btn btn-primary btn-sm" id="btn-save-quiz-time">💾 حفظ</button>
+        </div>
+        <p class="text-xs text-muted mt-8">لن تفتح المسابقة قبل هذا الوقت</p>
+      </div>
+    </div>
+    <!-- Rewards tab -->
+    <div id="ptab-rewards-content" class="hidden">
+      <div class="card">
+        <div class="bold mb-8">🎁 إضافة مكافأة</div>
+        <select id="rew-child" style="margin-bottom:6px"><option value="">اختر الطفل...</option></select>
+        <input type="text" id="rew-desc" placeholder="وصف المكافأة..." style="margin-bottom:6px">
+        <button class="btn btn-success btn-block btn-sm" id="btn-add-rew">🎁 إضافة المكافأة</button>
+      </div>
+      <div class="card mt-8">
+        <div class="bold mb-8">🏆 المكافآت الممنوحة</div>
+        <div id="rewards-list"><p class="text-muted text-sm text-center">لا توجد مكافآت بعد</p></div>
+      </div>
+    </div>
+    <!-- Settings tab -->
+    <div id="ptab-settings-content" class="hidden">
+      <div class="card"><div class="bold mb-8">🎨 المظهر</div><div class="theme-grid" id="theme-grid-parent"></div></div>
+      <div class="card mt-8">
+        <div class="bold mb-8">📊 تعديل جدول أوقات الصلاة</div>
+        <p class="text-sm text-muted mb-8">الصق بيانات JSON لجدول الأوقات</p>
+        <textarea id="tt-json" style="height:140px;font-size:0.72rem;direction:ltr"></textarea>
+        <button class="btn btn-secondary btn-block mt-8" id="btn-save-tt">💾 حفظ الجدول</button>
+      </div>
+      <div class="card mt-8"><div class="bold mb-8">⚠️ خيارات متقدمة</div><button class="btn btn-danger btn-block" id="btn-reset">🔄 إعادة تعيين الشهر</button></div>
+      <div class="card mt-8">
+        <div class="bold mb-8">🌙 إنهاء رمضان (بعد المغرب يوم 29)</div>
+        <div class="grid2 gap-8">
+          <button class="btn btn-primary btn-sm" id="btn-end-ramadan-29">🎉 العيد غداً (29 يوم)</button>
+          <button class="btn btn-ghost btn-sm" id="btn-continue-30">📅 استمرار ليوم 30</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== THEME PREVIEW ===== -->
+<div id="screen-themes" class="screen">
+  <div class="flex gap-8 mb-12"><button class="btn btn-ghost btn-sm" id="btn-themes-back">← رجوع</button><div class="screen-title" style="flex:1;margin:0">🎨 اختر المظهر</div></div>
+  <div class="theme-grid mb-12" id="theme-grid-main"></div>
+  <div class="bold mb-8 text-center">معاينة المظهر الحالي</div>
+  <div class="theme-preview">
+    <div class="theme-preview-title">أمثلة على العناصر</div>
+    <div class="preview-row">
+      <button class="btn btn-primary btn-sm">زر رئيسي</button>
+      <button class="btn btn-secondary btn-sm">زر ثانوي</button>
+      <button class="btn btn-ghost btn-sm">زر فارغ</button>
+      <button class="btn btn-danger btn-sm">تحذير</button>
+    </div>
+    <div class="preview-row">
+      <span class="badge">وسام</span>
+      <span style="background:var(--green);color:#fff;padding:3px 10px;border-radius:10px;font-size:0.75rem;font-weight:700">نجاح</span>
+      <span style="background:var(--rose);color:#fff;padding:3px 10px;border-radius:10px;font-size:0.75rem;font-weight:700">تنبيه</span>
+    </div>
+    <div class="card" style="margin-top:8px">
+      <div class="bold text-sm">بطاقة معلومات</div>
+      <div class="text-muted text-xs mt-8">هذا نص توضيحي داخل البطاقة</div>
+      <button class="btn btn-primary btn-sm mt-8" style="width:100%">زر داخل البطاقة</button>
+    </div>
+    <div style="background:rgba(82,214,138,0.12);border:1px solid var(--green);border-radius:11px;padding:9px 12px;margin-top:8px;font-size:0.85rem;color:var(--green);font-weight:700">✅ رسالة نجاح</div>
+    <div style="background:rgba(232,93,117,0.12);border:1px solid var(--rose);border-radius:11px;padding:9px 12px;margin-top:8px;font-size:0.85rem;color:var(--rose);font-weight:700">⚠️ رسالة تحذير</div>
+  </div>
+</div>
+
+</div><!-- /app -->
+
+<!-- ===== NAV ===== -->
+<nav id="nav">
+  <button class="nav-btn" data-s="home" id="nav-home"><span class="nav-i">🏠</span><span>الرئيسية</span></button>
+  <button class="nav-btn" data-s="progress" id="nav-progress"><span class="nav-i">🗺️</span><span>رحلتي</span></button>
+  <button class="nav-btn" data-s="shop" id="nav-shop"><span class="nav-i">🏪</span><span>المتجر</span></button>
+  <button class="nav-btn" data-s="profiles" id="nav-profiles"><span class="nav-i">👥</span><span>العائلة</span></button>
+  <button class="nav-btn" data-s="themes" id="nav-themes"><span class="nav-i">🎨</span><span>المظهر</span></button>
+</nav>
+
+<!-- ===== MODALS ===== -->
+<div id="m-theme" class="overlay hidden"><div class="sheet"><div class="sheet-handle"></div><div class="modal-title">🎨 اختر المظهر</div><div class="theme-grid" id="theme-grid-modal"></div><button class="btn btn-primary btn-block mt-12" id="btn-close-theme">✓ حفظ</button></div></div>
+<div id="m-ate" class="overlay hidden"><div class="sheet"><div class="sheet-handle"></div><div class="modal-title">💔 ماذا حدث؟</div>
+  <div class="flex-col gap-8">
+    <button class="btn btn-ghost btn-block" data-r="sick">🤒 كنت مريضاً (لا خصم + نقاط جزئية)</button>
+    <button class="btn btn-ghost btn-block" data-r="tired">😴 تعبت (نقاط جزئية)</button>
+    <button class="btn btn-ghost btn-block" data-r="forgot">😅 نسيت (بدون خصم)</button>
+    <button class="btn btn-ghost btn-block" data-r="intentional">😞 قررت ذلك (خصم النقاط)</button>
+  </div>
+  <button class="btn btn-ghost btn-block mt-10" id="btn-cancel-ate">إلغاء</button>
+</div></div>
+<div id="m-chest" class="overlay center hidden"><div class="sheet center-sheet" style="max-width:320px;text-align:center"><div style="font-size:3.5rem">🎁</div><div class="modal-title mt-8">صندوق المكافأة!</div><div id="chest-msg" class="text-muted mb-12">مكافأة!</div><button class="btn btn-primary btn-block" id="btn-close-chest">🎉 رائع!</button></div></div>
+<div id="m-eid-q" class="overlay center hidden"><div class="sheet center-sheet"><div style="font-size:3.5rem;text-align:center">🌙✨</div><div class="modal-title">هلال العيد</div><p style="text-align:center;margin-bottom:18px">هل أُعلن أن غداً أول أيام عيد الفطر؟</p><div class="grid2 gap-10"><button class="btn btn-primary" style="padding:14px" id="btn-eid-yes">🎉 نعم! العيد غداً</button><button class="btn btn-ghost" style="padding:14px" id="btn-eid-no">📅 لا، نكمل الثلاثين</button></div></div></div>
+<div id="m-eid-cel" class="overlay center hidden"><div class="sheet center-sheet"><div class="eid-wrap"><div style="font-size:4rem;animation:float 2s ease-in-out infinite">🌙</div><h1 style="font-size:2rem;color:var(--accent);font-family:'Amiri',serif;margin:12px 0">عيد مبارك</h1><p style="color:var(--teal);font-size:1.2rem;margin-bottom:6px">وكل عام وأنتم بخير 🎊</p><div class="winner-card"><div style="font-size:1.6rem">🏆</div><div class="bold text-accent">بطل رمضان</div><div id="win-av" style="font-size:2.8rem;margin:6px 0">🌙</div><div id="win-name" style="font-size:1.4rem;font-weight:900">—</div><div id="win-pts" style="color:var(--teal)">0 نقطة</div></div><div class="flex-col gap-8 mt-12"><button class="btn btn-primary btn-block" id="btn-eid-cert">📜 شهادتي</button><button class="btn btn-ghost btn-block" id="btn-eid-close">إغلاق</button></div></div></div></div>
+
+<!-- ===== TOAST ===== -->
+<!-- FAMILY CODE MODAL -->
+<div id="m-famcode" class="overlay center hidden">
+  <div class="sheet center-sheet" style="max-width:340px">
+    <div class="sheet-handle"></div>
+    <div class="modal-title">🔗 أدخل رمز العائلة</div>
+    <p class="text-muted text-sm mb-8 text-center">اطلب الرمز من الوالد لتظهر في لوحة متابعة العائلة</p>
+    <input type="text" id="fam-code-input" placeholder="أدخل الرمز هنا..." maxlength="8" style="text-align:center;font-size:1.5rem;letter-spacing:4px;font-weight:900;text-transform:uppercase;margin-bottom:10px">
+    <button class="btn btn-primary btn-block" id="btn-fam-code-submit">✓ ربط</button>
+    <button class="btn btn-ghost btn-block mt-8" id="btn-fam-code-close">إلغاء</button>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script>
+// ============================================================
+// CONSTANTS
+// ============================================================
+const AVATAR_GROUPS = [
+  {label:'أولاد 👦', avs:['👦','🧒','👲','🤴','🧑','🧑‍🎓','🧑‍🏫','🏃','🤸','🧗']},
+  {label:'بنات 👧', avs:['👧','🧒‍♀️','👸','🧕','👩','🧑‍🎓‍','🌸','🌺','🌻','🌼']},
+  {label:'رمضان 🌙', avs:['🌙','⭐','🕌','🪔','📖','🤲','🌟','🏮','🕯️','🌸']}
+];
+const HEROES = [
+  {id:'princess',  name:'الأميرة الصابرة',  icon:'👸',  desc:'صبورة وكريمة'},
+  {id:'lantern_g', name:'حاملة الفانوس',    icon:'🏮',  desc:'تضيء الطريق'},
+  {id:'reader_g',  name:'قارئة القرآن',     icon:'📖',  desc:'تحفظ وتتعلم'},
+  {id:'helper_g',  name:'المساعِدة الكريمة',icon:'🤝',  desc:'دائماً تساعد'},
+  {id:'star_g',    name:'نجمة رمضان',       icon:'🌟',  desc:'مشرقة ومبهجة'},
+  {id:'explorer',  name:'المستكشف',         icon:'🗺️',  desc:'يحب التعلم'},
+  {id:'lantern_b', name:'حامل الفانوس',     icon:'🕯️',  desc:'ينير الطريق'},
+  {id:'astronaut', name:'رائد الفضاء',      icon:'🚀',  desc:'يصل للنجوم'},
+  {id:'scientist', name:'العالِم الصغير',   icon:'🔬',  desc:'ذكي ومجتهد'},
+  {id:'reader_b',  name:'حافظ القرآن',      icon:'📚',  desc:'يحفظ ويتعلم'}
+];
+const COLORS = ['#f0b429','#38c9b0','#e85d75','#9b59b6','#3498db','#e67e22','#2ecc71','#e74c3c','#1abc9c','#f39c12','#c0006a','#1a6b00'];
+const LEVELS = [{name:'مبتدئ 🌱',t:0},{name:'شجاع ⭐',t:200},{name:'بطل 🏆',t:500},{name:'أسطورة 👑',t:1000},{name:'رمضاني 🌙',t:2000}];
+const GOOD_DEEDS = [
+  {id:'quran', name:'قرأت القرآن',     icon:'📖', pts:20, needsApproval:true},
+  {id:'pray',  name:'صليت الجماعة',   icon:'🕌', pts:25, needsApproval:true},
+  {id:'suhoor',name:'أكلت السحور',    icon:'🌙', pts:15, needsApproval:true},
+  {id:'helped',name:'ساعدت أحداً',    icon:'🤝', pts:15, needsApproval:true},
+  {id:'study', name:'ذاكرت دروسي',    icon:'📚', pts:20, needsApproval:true},
+  {id:'listen',name:'أطعت والديّ',    icon:'❤️', pts:20, needsApproval:true},
+  {id:'cook',  name:'ساعدت بالطبخ',   icon:'🍳', pts:20, needsApproval:true},
+  {id:'clean', name:'نظّفت البيت',    icon:'🧹', pts:15, needsApproval:true}
+];
+const BAD_DEEDS_PRESET = [
+  {id:'b1', name:'شجار مع الإخوة',    pts:-20},
+  {id:'b2', name:'عدم الاستماع للوالدين', pts:-25},
+  {id:'b3', name:'الكذب',             pts:-30},
+  {id:'b4', name:'ترك الصلاة',        pts:-40},
+  {id:'b5', name:'الإساءة للآخرين',   pts:-25},
+  {id:'b6', name:'إهدار الطعام',      pts:-15},
+  {id:'b7', name:'إهمال الواجب',      pts:-20},
+  {id:'b8', name:'الغضب الشديد',      pts:-15},
+  {id:'b9', name:'اللعب بالجوال وقت الدراسة', pts:-20},
+  {id:'b10',name:'التأخر عن وقت النوم', pts:-10},
+  {id:'b11',name:'عدم ترتيب الغرفة',  pts:-10},
+  {id:'b12',name:'التنمر على زميل',   pts:-35},
+  {id:'b13',name:'الإسراف في الماء',  pts:-10},
+  {id:'b14',name:'رفع الصوت بشكل سيء', pts:-15},
+  {id:'b15',name:'كسر شيء عمداً',    pts:-25}
+];
+const QUESTS = [
+  {id:'q1',text:'اشرب ماء كافياً في السحور 💧',pts:10},
+  {id:'q2',text:'ساعد أحد أفراد العائلة 🤝',pts:15},
+  {id:'q3',text:'اقرأ آية أو أكثر من القرآن 📖',pts:15},
+  {id:'q4',text:'صلِّ الفجر في وقته 🌅',pts:20},
+  {id:'q5',text:'ابتسم في وجه شخص واحد على الأقل 😊',pts:10},
+  {id:'q6',text:'قل الحمد لله عشر مرات 🤲',pts:10},
+  {id:'q7',text:'تجنب الشجار مع إخوتك 🕊️',pts:20}
+];
+const SHOP_ITEMS = [
+  {id:'grace',  name:'درع الحماية',   icon:'🛡️', desc:'يحمي يوماً صعباً',       price:200},
+  {id:'x2',     name:'نقاط مضاعفة',  icon:'⚡',  desc:'ضاعف نقاطك ليوم',        price:350},
+  {id:'chest',  name:'صندوق مفاجأة', icon:'🎁',  desc:'هدية عشوائية!',          price:150},
+  {id:'crown',  name:'وسام الفخر',   icon:'👑',  desc:'للأبطال فقط',            price:500},
+  {id:'lantern',name:'فانوس رمضان',  icon:'🏮',  desc:'يجمّل شاشتك',           price:100},
+  {id:'dates',  name:'طبق التمر',    icon:'🌴',  desc:'يضيف 30 نقطة مكافأة',   price:120}
+];
+const JOURNEY = [
+  {id:'start',   name:'البداية',      icon:'🏡', req:0},
+  {id:'village', name:'القرية',       icon:'🌳', req:100},
+  {id:'desert',  name:'الصحراء',     icon:'🏜️', req:300},
+  {id:'mountain',name:'الجبل',       icon:'⛰️', req:600},
+  {id:'mosque',  name:'المسجد',      icon:'🕌', req:1000},
+  {id:'stars',   name:'النجوم',      icon:'⭐', req:1500},
+  {id:'moon',    name:'القمر',       icon:'🌙', req:2000}
+];
+const ACHIEVEMENTS = [
+  {id:'first',    name:'أول صيام',    icon:'🌟', desc:'أتممت أول يوم'},
+  {id:'s3',       name:'3 أيام',      icon:'🔥', desc:'3 أيام متتالية'},
+  {id:'s7',       name:'أسبوع كامل', icon:'💪', desc:'7 أيام متتالية'},
+  {id:'s14',      name:'نصف شهر',    icon:'🏆', desc:'14 يوماً متتالياً'},
+  {id:'pts500',   name:'500 نقطة',   icon:'💎', desc:'مجموع 500 نقطة'},
+  {id:'pts1000',  name:'ألف نقطة',   icon:'👑', desc:'مجموع 1000 نقطة'},
+  {id:'allDeeds', name:'يوم كامل',   icon:'🌸', desc:'أكمل كل الأعمال في يوم'},
+  {id:'allQuests',name:'مهام مكتملة',icon:'📋', desc:'أكمل كل مهام اليوم'},
+  {id:'quizPerf', name:'نجم المسابقة',icon:'🎯',desc:'10/10 في المسابقة'}
+];
+const THEMES = [
+  {id:'night', icon:'🌙', label:'الليل',  cls:'t-night'},
+  {id:'day',   icon:'☀️', label:'النهار', cls:'t-day'},
+  {id:'girls', icon:'🌸', label:'البنات', cls:'t-girls'},
+  {id:'boys',  icon:'🌿', label:'الأولاد',cls:'t-boys'}
+];
+const FALLBACK_TT = [
+  {dateISO:'2026-02-18',ramadanDay:1,weekdayAr:'الأربعاء',fajr:'04:49',dhuhr:'11:49',asr:'15:05',maghrib:'17:32'},
+  {dateISO:'2026-02-19',ramadanDay:2,weekdayAr:'الخميس',fajr:'04:48',dhuhr:'11:49',asr:'15:05',maghrib:'17:33'},
+  {dateISO:'2026-02-20',ramadanDay:3,weekdayAr:'الجمعة',fajr:'04:47',dhuhr:'11:49',asr:'15:05',maghrib:'17:34'},
+  {dateISO:'2026-02-21',ramadanDay:4,weekdayAr:'السبت',fajr:'04:47',dhuhr:'11:49',asr:'15:06',maghrib:'17:34'},
+  {dateISO:'2026-02-22',ramadanDay:5,weekdayAr:'الأحد',fajr:'04:46',dhuhr:'11:48',asr:'15:06',maghrib:'17:35'},
+  {dateISO:'2026-02-23',ramadanDay:6,weekdayAr:'الاثنين',fajr:'04:45',dhuhr:'11:48',asr:'15:06',maghrib:'17:35'},
+  {dateISO:'2026-02-24',ramadanDay:7,weekdayAr:'الثلاثاء',fajr:'04:44',dhuhr:'11:48',asr:'15:06',maghrib:'17:36'},
+  {dateISO:'2026-02-25',ramadanDay:8,weekdayAr:'الأربعاء',fajr:'04:43',dhuhr:'11:48',asr:'15:07',maghrib:'17:37'},
+  {dateISO:'2026-02-26',ramadanDay:9,weekdayAr:'الخميس',fajr:'04:42',dhuhr:'11:47',asr:'15:07',maghrib:'17:37'},
+  {dateISO:'2026-02-27',ramadanDay:10,weekdayAr:'الجمعة',fajr:'04:41',dhuhr:'11:47',asr:'15:07',maghrib:'17:38'}
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let STATE = {
+  profiles:[],currentId:null,timetable:[],
+  ramadanDays:30,eidConfirmed:false,eidModalShown:false,
+  quizQuestions:[],customQuestions:[],
+  theme:'night',quizHour:16,
+  familyCode:'',rewards:[],
+  badDeeds: BAD_DEEDS_PRESET,
+  schemaVersion: 2
+};
+let timerInterval=null, notifGranted=false, installPrompt=null;
+let setupData={name:'',age:8,avatar:'🌙',hero:'explorer',color:'#f0b429',diff:'easy'};
+let setupStep=0, avatarGroupIdx=0;
+let selectedFastingReason=null;
+
+// ============================================================
+// CONTRAST HELPER — auto dark/light text on any bg color
+// ============================================================
+function hexLuminance(hex){
+  hex=hex.replace('#','');
+  if(hex.length===3)hex=hex.split('').map(c=>c+c).join('');
+  const r=parseInt(hex.slice(0,2),16)/255;
+  const g=parseInt(hex.slice(2,4),16)/255;
+  const b=parseInt(hex.slice(4,6),16)/255;
+  const toL=c=>c<=0.03928?c/12.92:Math.pow((c+0.055)/1.055,2.4);
+  return 0.2126*toL(r)+0.7152*toL(g)+0.0722*toL(b);
+}
+function contrastColor(hex){
+  try{return hexLuminance(hex)>0.35?'#1a1000':'#f0e6d3';}
+  catch(e){return'#f0e6d3';}
+}
+// Call this on any element that has a dynamic/custom background hex
+function applyAutoContrast(el,bgHex){
+  if(!el||!bgHex)return;
+  el.style.color=contrastColor(bgHex);
+}
+
+// ============================================================
+// SESSION — currentId is DEVICE-LOCAL ONLY, never synced to Supabase
+// Each device keeps its own active profile independently
+// ============================================================
+const SESSION_KEY='lfa_session_id';
+function getLocalSession(){return localStorage.getItem(SESSION_KEY)||null}
+function setLocalSession(id){
+  if(id)localStorage.setItem(SESSION_KEY,id);
+  else localStorage.removeItem(SESSION_KEY);
+}
+
+// THEME — per-profile, stored in localStorage only, NEVER synced to Supabase
+// Each child picks their own theme on their own device
+function getProfileTheme(profileId){
+  if(profileId){const t=localStorage.getItem('lfa_theme_'+profileId);if(t)return t;}
+  return localStorage.getItem('lfa_theme_global')||'night';
+}
+function setProfileTheme(profileId,t){
+  if(profileId)localStorage.setItem('lfa_theme_'+profileId,t);
+  localStorage.setItem('lfa_theme_global',t);
+}
+// Load and apply the theme for the current profile on this device
+function loadProfileTheme(){
+  const t=getProfileTheme(STATE.currentId);
+  document.body.setAttribute('data-theme',t);
+}
+
+// ============================================================
+// SUPABASE — Real-time sync between all family devices
+// ============================================================
+const SB_URL  = 'https://srcveyrtcfsceqwryzxf.supabase.co';
+const SB_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNyY3ZleXJ0Y2ZzY2Vxd3J5enhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE0MTM0OTcsImV4cCI6MjA4Njk4OTQ5N30.adG7hF4z46KIs3T8A8ahCuYs1w7jR92fIGYcttCaVY8';
+let SB = null;
+try { SB = supabase.createClient(SB_URL, SB_KEY); } catch(e){ console.warn('Supabase init failed', e); }
+
+// ── LOCAL fallback ──────────────────────────────────────────
+function saveLocal(){ try{ localStorage.setItem('lfa5', JSON.stringify(STATE)); }catch(e){} }
+function loadLocal(){
+  try{
+    const d = localStorage.getItem('lfa5');
+    if(d) mergeState(JSON.parse(d));
+    else { const d4=localStorage.getItem('lfa4'); if(d4) mergeState(JSON.parse(d4)); }
+  }catch(e){}
+}
+
+// ── Push this device's STATE to Supabase ───────────────────
+// One row per family in `families` table: { family_code, state_json }
+let _saveTimer = null;
+async function save(){
+  // Always persist currentId locally only
+  setLocalSession(STATE.currentId);
+  saveLocal();
+  if(!SB || !STATE.familyCode) return;
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(async()=>{
+    try{
+      // NEVER upload currentId or theme — both are per-device
+      const {currentId:_cid, theme:_th, ...stateToSync} = STATE;
+      await SB.from('families').upsert({
+        family_code: STATE.familyCode,
+        state_json:  JSON.stringify(stateToSync),
+        updated_at:  new Date().toISOString()
+      }, { onConflict: 'family_code' });
+      showSyncDot();
+    }catch(e){ console.warn('Supabase save error', e); }
+  }, 800);
+}
+
+// ── Pull family state from Supabase ────────────────────────
+async function load(){
+  loadLocal();
+  // Always restore THIS device's local-only values first
+  const localId = getLocalSession();
+  if(localId) STATE.currentId = localId;
+
+  if(!SB || !STATE.familyCode) return;
+  try{
+    const { data, error } = await SB
+      .from('families')
+      .select('state_json')
+      .eq('family_code', STATE.familyCode)
+      .single();
+    if(data && data.state_json){
+      const remote = JSON.parse(data.state_json);
+      mergeState(remote);
+      // CRITICAL: always restore device-local values after any remote merge
+      STATE.currentId = localId || STATE.currentId;
+      // Theme is per-device — reload from localStorage
+      loadProfileTheme();
+      saveLocal();
+      showSyncDot();
+    }
+  }catch(e){ console.warn('Supabase load error', e); }
+}
+
+// ── Join a family by code (child device) ───────────────────
+async function joinFamily(code){
+  if(!SB){ console.warn('Supabase not initialized'); return false; }
+  const c = code.trim().toUpperCase();
+  try{
+    // maybeSingle() returns null instead of throwing when no row found
+    const { data, error } = await SB
+      .from('families')
+      .select('state_json')
+      .eq('family_code', c)
+      .maybeSingle();
+    console.log('joinFamily result:', {data, error, code: c});
+    if(error){ console.warn('Supabase joinFamily error:', error); return false; }
+    if(!data){ console.warn('No family found for code:', c); return false; }
+    const remote = JSON.parse(data.state_json);
+    STATE.familyCode = c;
+    // Merge profiles: keep own IDs, add others from family for leaderboard
+    const myIds = STATE.profiles.map(p=>p.id);
+    (remote.profiles||[]).forEach(rp=>{
+      if(!myIds.includes(rp.id)) STATE.profiles.push(rp);
+    });
+    // Adopt family settings
+    if(remote.rewards) STATE.rewards = remote.rewards;
+    if(remote.customQuestions) STATE.customQuestions = remote.customQuestions;
+    // CRITICAL: never override this device's current session
+    const localId = getLocalSession();
+    if(localId) STATE.currentId = localId;
+    saveLocal();
+    await save();
+    return true;
+  }catch(e){
+    console.error('joinFamily exception:', e);
+    return false;
+  }
+}
+
+// ── Real-time subscription: listen for family updates ──────
+let _realtimeSub = null;
+async function subscribeToFamily(){
+  if(!SB || !STATE.familyCode || _realtimeSub) return;
+  _realtimeSub = SB
+    .channel('family_' + STATE.familyCode)
+    .on('postgres_changes',{
+      event: 'UPDATE',
+      schema: 'public',
+      table: 'families',
+      filter: `family_code=eq.${STATE.familyCode}`
+    }, async payload => {
+      if(payload.new && payload.new.state_json){
+        const remote = JSON.parse(payload.new.state_json);
+        const localId = getLocalSession();
+        mergeState(remote);
+        // Restore device-local values — never let remote override
+        STATE.currentId = localId || STATE.currentId;
+        loadProfileTheme();
+        saveLocal();
+        showSyncDot();
+        refreshCurrentScreen();
+      }
+    })
+    .subscribe();
+}
+
+function refreshCurrentScreen(){
+  const sc = document.querySelector('.screen.active');
+  if(!sc) return;
+  const sid = sc.id.replace('screen-','');
+  const map = {home:renderHome, progress:renderProgress, shop:renderShop, profiles:renderProfiles, parent:renderParentChildren};
+  if(map[sid]) map[sid]();
+}
+
+// ── Test Supabase connection & push family code ────────────
+async function testConnection(){
+  const el = document.getElementById('supabase-status');
+  if(el) el.innerHTML = '⏳ جارٍ الاختبار...';
+  if(!SB){
+    if(el) el.innerHTML = '❌ Supabase غير مُهيَّأ';
+    return;
+  }
+  try{
+    // Try to upsert current family row
+    const { error } = await SB.from('families').upsert({
+      family_code: STATE.familyCode,
+      state_json: JSON.stringify(STATE),
+      updated_at: new Date().toISOString()
+    },{onConflict:'family_code'});
+    if(error){
+      console.error('testConnection error:', error);
+      if(el) el.innerHTML = `❌ خطأ: ${error.message}`;
+      toast('❌ تعذّر الاتصال بـ Supabase');
+    } else {
+      if(el) el.innerHTML = '✅ متصل بـ Supabase — الرمز محفوظ على السحابة';
+      toast('✅ الاتصال يعمل! الرمز جاهز للمشاركة');
+      subscribeToFamily();
+    }
+  }catch(e){
+    console.error('testConnection exception:', e);
+    if(el) el.innerHTML = `❌ ${e.message}`;
+  }
+}
+function showSyncDot(){
+  const el=document.getElementById('sync-indicator');
+  if(el){el.classList.add('syncing');setTimeout(()=>el.classList.remove('syncing'),800)}
+}
+
+// ── Multi-tab BroadcastChannel (same device) ───────────────
+let _bc=null;try{_bc=new BroadcastChannel('lfa_sync')}catch(e){}
+function broadcastSync(){if(_bc)try{_bc.postMessage({t:'upd',ts:Date.now()})}catch(e){}}
+if(_bc)_bc.onmessage=async(e)=>{
+  if(e.data&&e.data.t==='upd'){
+    await load(); showSyncDot(); refreshCurrentScreen();
+  }
+};
+window.addEventListener('storage',async e=>{if(e.key==='lfa5'){loadLocal();showSyncDot();}});
+
+// ── State helpers ──────────────────────────────────────────
+function mergeState(loaded){
+  if(!loaded||typeof loaded!=='object')return;
+  STATE=Object.assign({...STATE},loaded);
+  if(!STATE.badDeeds||!STATE.badDeeds.length)STATE.badDeeds=BAD_DEEDS_PRESET;
+  STATE.profiles.forEach(p=>{
+    if(p.gems===undefined)p.gems=Math.floor((p.points||0)*0.3);
+    if(p.competitionPoints===undefined)p.competitionPoints=p.points||0;
+  });
+}
+function prf(){return STATE.profiles.find(p=>p.id===STATE.currentId)||null}
+function todayISO(){return new Date().toISOString().split('T')[0]}
+function todayTT(){return STATE.timetable.find(d=>d.dateISO===todayISO())||STATE.timetable[0]||null}
+function dayLog(p,date){if(!p.logs)p.logs={};const d=date||todayISO();if(!p.logs[d])p.logs[d]={targetReached:false,maghribReached:false,deeds:[],pendingDeeds:[],quests:[],pts:0,quizDone:false,quizScore:0,badDeeds:[]};return p.logs[d]}
+function getLevel(pts){return LEVELS.slice().reverse().find(l=>pts>=l.t)||LEVELS[0]}
+function getNextLevel(pts){return LEVELS.find(l=>pts<l.t)||null}
+function parseT(str,date){const[h,m]=str.split(':').map(Number);const b=new Date(date+'T00:00:00');b.setHours(h,m,0,0);return b}
+function fmtTime(ms){if(ms<=0)return '00:00:00';const s=Math.floor(ms/1000);return[Math.floor(s/3600),Math.floor((s%3600)/60),s%60].map(x=>String(x).padStart(2,'0')).join(':')}
+
+// ============================================================
+// THEME
+// ============================================================
+function applyTheme(t){
+  if(!['night','day','girls','boys'].includes(t))t='night';
+  document.body.setAttribute('data-theme',t);
+  // Store per-profile in localStorage — NEVER synced to Supabase
+  setProfileTheme(STATE.currentId,t);
+  renderAllThemeGrids();
+}
+function renderAllThemeGrids(){
+  const t=STATE.theme;
+  ['theme-grid-parent','theme-grid-modal','theme-grid-main'].forEach(id=>{
+    const el=document.getElementById(id);if(!el)return;
+    el.innerHTML=THEMES.map(th=>`<button class="theme-btn ${th.cls}${t===th.id?' active':''}" data-t="${th.id}"><span style="font-size:1.4rem">${th.icon}</span><span>${th.label}</span></button>`).join('');
+    el.querySelectorAll('[data-t]').forEach(b=>b.addEventListener('click',()=>applyTheme(b.dataset.t)));
+  });
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const sc=document.getElementById('screen-'+id);if(sc)sc.classList.add('active');
+  const navIds=['home','progress','shop','profiles','themes'];
+  const nav=document.getElementById('nav');
+  if(navIds.includes(id)){nav.classList.add('show');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.s===id))}
+  else nav.classList.remove('show');
+  const renders={home:renderHome,progress:renderProgress,shop:renderShop,profiles:renderProfiles,certificate:renderCertificate,parent:renderParent,themes:()=>renderAllThemeGrids(),
+    quiz:()=>{
+      const p=prf();if(!p)return;
+      // Show path map, clear any ongoing quiz display
+      const map=document.getElementById('quiz-path-map');
+      if(map)map.style.display='';
+      renderQuizPath(p);
+    }
+  };
+  if(renders[id])renders[id]();
+}
+
+// ============================================================
+// DATA LOAD
+// ============================================================
+async function loadTT(){
+  try{const r=await fetch('./data.json');const d=await r.json();if(Array.isArray(d)&&d.length){STATE.timetable=d;save();return}}catch{}
+  STATE.timetable=FALLBACK_TT;
+}
+async function loadQuiz(){
+  if(STATE.quizQuestions&&STATE.quizQuestions.length>10)return;
+  try{const r=await fetch('./questions.json');const d=await r.json();if(Array.isArray(d)&&d.length){STATE.quizQuestions=d;save()}}catch{}
+}
+
+// ============================================================
+// SETUP
+// ============================================================
+function initSetup(){
+  setupStep=0;avatarGroupIdx=0;
+  setupData={name:'',age:8,avatar:'🌙',hero:'reader_b',color:'#f0b429',diff:'easy'};
+  buildAvatarTabs();renderAvatarGrid();buildColorGrid();buildHeroGrid();
+  document.querySelectorAll('.diff-btn').forEach(b=>{b.classList.toggle('selected',b.dataset.d==='easy');b.addEventListener('click',()=>{setupData.diff=b.dataset.d;document.querySelectorAll('.diff-btn').forEach(x=>x.classList.toggle('selected',x===b))})});
+  ['d','a','m'].forEach(id=>{const sl=document.getElementById('sl-'+id);if(sl)sl.addEventListener('input',()=>onSlider(id))});
+  showStep(0);
+}
+function showStep(n){document.querySelectorAll('.setup-step').forEach(s=>s.classList.remove('active'));const el=document.querySelector(`.setup-step[data-step="${n}"]`);if(el)el.classList.add('active');setupStep=n}
+function buildAvatarTabs(){
+  const el=document.getElementById('av-tabs');
+  el.innerHTML=AVATAR_GROUPS.map((g,i)=>`<button class="avatar-tab${i===0?' active':''}" data-gi="${i}">${g.label}</button>`).join('');
+  el.querySelectorAll('.avatar-tab').forEach(t=>t.addEventListener('click',()=>{avatarGroupIdx=parseInt(t.dataset.gi);el.querySelectorAll('.avatar-tab').forEach(x=>x.classList.toggle('active',x===t));renderAvatarGrid()}));
+}
+function renderAvatarGrid(){
+  const g=AVATAR_GROUPS[avatarGroupIdx];const el=document.getElementById('av-grid');
+  el.innerHTML=g.avs.map(a=>`<button class="av-btn${setupData.avatar===a?' selected':''}" data-a="${a}">${a}</button>`).join('');
+  el.querySelectorAll('.av-btn').forEach(b=>b.addEventListener('click',()=>{setupData.avatar=b.dataset.a;el.querySelectorAll('.av-btn').forEach(x=>x.classList.toggle('selected',x===b))}));
+}
+function buildColorGrid(){
+  const el=document.getElementById('col-grid');
+  el.innerHTML=COLORS.map(c=>`<div class="color-sw${setupData.color===c?' selected':''}" data-c="${c}" style="background:${c}"></div>`).join('');
+  el.querySelectorAll('.color-sw').forEach(s=>{
+    applyAutoContrast(s, s.dataset.c);
+    s.addEventListener('click',()=>{
+      setupData.color=s.dataset.c;
+      el.querySelectorAll('.color-sw').forEach(x=>x.classList.toggle('selected',x===s));
+    });
+  });
+}
+function buildHeroGrid(){
+  const el=document.getElementById('hero-grid');
+  el.innerHTML=HEROES.map(h=>`<div class="hero-btn${setupData.hero===h.id?' selected':''}" data-hid="${h.id}"><div class="hero-icon">${h.icon}</div><div class="bold text-sm" style="margin-top:4px">${h.name}</div><div class="text-xs text-muted">${h.desc}</div></div>`).join('');
+  el.querySelectorAll('.hero-btn').forEach(b=>b.addEventListener('click',()=>{setupData.hero=b.dataset.hid;el.querySelectorAll('.hero-btn').forEach(x=>x.classList.toggle('selected',x===b))}));
+}
+function onSlider(changed){
+  const total=STATE.ramadanDays||30;const ids=['d','a','m'];const vals={};
+  ids.forEach(id=>{vals[id]=parseInt(document.getElementById('sl-'+id)?.value||0)});
+  const sum=vals.d+vals.a+vals.m;
+  if(sum>total){const others=ids.filter(i=>i!==changed);let ex=sum-total;for(const id of others){const r=Math.min(vals[id],ex);vals[id]-=r;ex-=r;const el=document.getElementById('sl-'+id);if(el)el.value=vals[id];if(ex<=0)break}}
+  ids.forEach(id=>{const lbl=document.getElementById('lbl-'+['d','a','m'].includes(id)?id:id);if(lbl)lbl.textContent=vals[id]+' يوم'});
+  const s2=vals.d+vals.a+vals.m;const info=document.getElementById('total-info');if(info)info.textContent=`✅ المجموع: ${s2} من أصل ${total} يوماً`;
+}
+function genPlan(age,diff){
+  const total=STATE.ramadanDays||30;let b;
+  if(diff==='easy')b={d:15,a:10,m:5};else if(diff==='normal')b={d:0,a:15,m:15};else b={d:0,a:0,m:30};
+  if(age<=7&&diff!=='easy')b={d:15,a:10,m:5};else if(age<=9&&diff==='hero')b={d:0,a:15,m:15};
+  const sum=b.d+b.a+b.m;if(sum<total)b.m+=total-sum;
+  return{dhuhrDays:Math.max(0,b.d),asrDays:Math.max(0,b.a),maghribDays:Math.max(0,b.m)};
+}
+function createProfile(){
+  const plan={dhuhrDays:parseInt(document.getElementById('sl-d')?.value||15),asrDays:parseInt(document.getElementById('sl-a')?.value||10),maghribDays:parseInt(document.getElementById('sl-m')?.value||5)};
+  const p={id:Date.now().toString(),name:setupData.name,age:setupData.age,avatar:setupData.avatar,hero:setupData.hero,color:setupData.color,diff:setupData.diff,plan,
+    points:0,gems:0,competitionPoints:0,
+    streak:0,maxStreak:0,graceTokens:3,achievements:[],seenQuestions:[],logs:{},inventory:[],activityLog:[]};
+  STATE.profiles.push(p);
+  STATE.currentId=p.id;
+  setLocalSession(p.id);
+  loadProfileTheme(); // apply default theme for new profile
+  save();
+  showScreen('home');startTimers();toast('🎉 أهلاً '+p.name+'! رمضان مبارك!');
+}
+
+// ============================================================
+// HOME
+// ============================================================
+function renderHome(){
+  const p=prf();const td=todayTT();if(!p||!td)return;
+  const log=dayLog(p);
+  document.getElementById('h-av').textContent=p.avatar;
+  document.getElementById('h-name').textContent=p.name;
+  document.getElementById('h-day').textContent='يوم '+td.ramadanDay;
+  document.getElementById('h-greet').textContent=td.weekdayAr+' — '+td.ramadanDay+' رمضان';
+  renderStatusCard(p,log,td);renderDeeds(p,log);renderQuests(log);renderBadDeeds(p,log);
+  // FIX: Quiz unlocks at Fajr (not fixed hour)
+  const td2=todayTT();
+  const fajrUnlockTime=td2?parseT(td2.fajr,td2.dateISO):null;
+  const quizUnlocked=fajrUnlockTime?now>=fajrUnlockTime:now.getHours()>=4;
+  const qEl=document.getElementById('quiz-banner-sub');
+  const quizBtn=document.getElementById('btn-quiz');
+  if(!quizUnlocked){
+    const fajrStr=td2?td2.fajr:'الفجر';
+    if(qEl)qEl.textContent=`🔒 تفتح بعد أذان الفجر ${fajrStr}`;
+    if(quizBtn){quizBtn.disabled=true;quizBtn.textContent='مغلق';}
+  } else {
+    if(quizBtn){quizBtn.disabled=false;quizBtn.textContent='ابدأ!';}
+    if(qEl)qEl.textContent=log.quizDone?'أكملت مسابقة اليوم ✅':'10 أسئلة رمضانية - اكسب نقاطاً!';
+  }
+}
+function getTarget(p,td){
+  const rd=td.ramadanDay;const plan=p.plan||{dhuhrDays:0,asrDays:0,maghribDays:30};
+  let type;if(rd<=plan.dhuhrDays)type='dhuhr';else if(rd<=plan.dhuhrDays+plan.asrDays)type='asr';else type='maghrib';
+  return{type,name:{dhuhr:'الظهر',asr:'العصر',maghrib:'المغرب'}[type],time:td[type]};
+}
+function renderStatusCard(p,log,td){
+  const el=document.getElementById('status-card');const now=new Date();const target=getTarget(p,td);
+  el.className='status-card';
+  if(log.maghribReached){el.className+=' status-success';el.innerHTML=`<div class="bold">🎉 أتممت صيام اليوم حتى المغرب!</div><div class="text-sm text-muted">نقاط اليوم: ${log.pts}</div>`;}
+  else if(log.ateReason){
+    el.className+=' status-broke';
+    const labels={sick:'كنت مريضاً 🤒',tired:'تعبت 😴',forgot:'نسيت 😅',intentional:'قررت ذلك 😞'};
+    el.innerHTML=`<div class="bold">💔 أكلت أو شربت — ${labels[log.ateReason]||''}</div><div class="text-sm text-muted">نقاط اليوم: ${log.pts}</div>`;
+  } else if(log.targetReached){
+    el.className+=' status-success';
+    el.innerHTML=`<div class="bold">✅ وصلت لهدف ${target.name}!</div><button class="btn btn-success btn-sm" style="margin-top:7px;width:100%" id="btn-cont-maghrib">🌟 واصل حتى المغرب (+بونص)</button>`;
+    document.getElementById('btn-cont-maghrib')?.addEventListener('click',claimMaghrib);
+  } else {
+    el.className+=' status-pending';
+    if(target.time){const tt=parseT(target.time,td.dateISO);const diff=tt-now;
+      if(diff<=0){el.innerHTML=`<div class="bold">🎯 حان وقت ${target.name}! هل وصلت؟</div><div class="flex gap-8 mt-8"><button class="btn btn-success btn-sm" style="flex:1" id="btn-yes-target">✅ نعم وصلت!</button><button class="btn btn-danger btn-sm" style="flex:1" id="btn-no-target">💔 لم أصل</button></div>`;
+        document.getElementById('btn-yes-target')?.addEventListener('click',claimTarget);
+        document.getElementById('btn-no-target')?.addEventListener('click',()=>showModal('m-ate'));
+      } else{el.innerHTML=`<div class="bold">🎯 هدف اليوم: الصيام حتى <strong>${target.name}</strong></div><button class="btn btn-ghost btn-sm mt-8" id="btn-broke" style="width:100%">💔 أكلت أو شربت</button>`;
+        document.getElementById('btn-broke')?.addEventListener('click',()=>showModal('m-ate'));
+      }
+    }
+  }
+}
+function renderDeeds(p,log){
+  const el=document.getElementById('deeds-grid');
+  el.innerHTML=GOOD_DEEDS.map(d=>{
+    const done=(log.deeds||[]).includes(d.id);
+    const pending=(log.pendingDeeds||[]).includes(d.id);
+    let cls='deed-btn';if(done)cls+=' done';else if(pending)cls+=' pending-approval';
+    const lbl=done?'✅ تمّ':pending?'⏳ انتظر':'+'+d.pts+' نقطة';
+    return`<button class="${cls}" data-did="${d.id}"><span class="deed-icon">${d.icon}</span><span class="deed-name">${d.name}</span><span class="deed-pts">${lbl}</span></button>`;
+  }).join('');
+  el.querySelectorAll('.deed-btn').forEach(b=>b.addEventListener('click',()=>logDeed(b.dataset.did)));
+}
+function renderQuests(log){
+  const el=document.getElementById('quest-list');
+  el.innerHTML=QUESTS.map(q=>{const done=(log.quests||[]).includes(q.id);return`<div class="quest-item" data-qid="${q.id}"><div class="q-check${done?' done':''}">${done?'✓':''}</div><span style="flex:1;font-size:0.88rem">${q.text}</span><span class="q-pts">+${q.pts}</span></div>`}).join('');
+  el.querySelectorAll('.quest-item').forEach(item=>item.addEventListener('click',()=>toggleQuest(item.dataset.qid)));
+  document.getElementById('q-badge').textContent=(log.quests||[]).length+'/'+QUESTS.length;
+}
+function renderBadDeeds(p,log){
+  const bds=log.badDeeds||[];
+  const sec=document.getElementById('bad-deeds-section');const lst=document.getElementById('bad-deeds-list');
+  if(!bds.length){sec.classList.add('hidden');return}
+  sec.classList.remove('hidden');
+  lst.innerHTML=bds.map(bd=>{const preset=STATE.badDeeds.find(b=>b.id===bd.id)||{};return`<div class="bad-deed-item"><span style="font-size:1.1rem">⚠️</span><span style="flex:1;font-size:0.85rem">${preset.name||bd.id}</span><span style="color:var(--rose);font-weight:700;font-size:0.85rem">${preset.pts||''} نقطة</span></div>`}).join('');
+}
+
+// ============================================================
+// TIMERS
+// ============================================================
+function startTimers(){if(timerInterval)clearInterval(timerInterval);timerInterval=setInterval(()=>{updateTimers();if(new Date().getSeconds()===0)checkEidNotif()},1000);updateTimers()}
+function updateTimers(){
+  const p=prf();const td=todayTT();if(!p||!td)return;
+  const log=dayLog(p);const target=getTarget(p,td);const now=new Date();
+  if(target.time){
+    const tt=parseT(target.time,td.dateISO);const diff=tt-now;
+    document.getElementById('t-name').textContent='الهدف: '+target.name;
+    document.getElementById('t-main').textContent=fmtTime(diff);
+    const mins=diff/60000;
+    document.getElementById('t-sub').textContent=diff<=0?'🎉 وصلت للهدف!':mins<=5?'🔥 بقي دقائق! أنت تقدر!':mins<=30?'⭐ قريب من الهدف!':'💪 استمر!';
+    const fajrT=parseT(td.fajr,td.dateISO);const maghribT=parseT(td.maghrib,td.dateISO);
+    const pct=Math.min(100,Math.max(0,(now-fajrT)/(maghribT-fajrT)*100));
+    document.getElementById('p-fill').style.width=pct+'%';
+    const mPct=(tt-fajrT)/(maghribT-fajrT)*100;
+    document.getElementById('p-marker').style.right=(100-Math.min(100,Math.max(0,mPct)))+'%';
+    const bc=document.getElementById('bonus-card');
+    if(log.targetReached&&!log.maghribReached&&target.type!=='maghrib'){bc.classList.remove('hidden');document.getElementById('bonus-timer').textContent=fmtTime(maghribT-now)}
+    else bc.classList.add('hidden');
+  }
+}
+
+// ============================================================
+// GAME ACTIONS
+// ============================================================
+function claimTarget(){
+  const p=prf();const td=todayTT();if(!p||!td)return;const log=dayLog(p);if(log.targetReached)return;
+  log.targetReached=true;const target=getTarget(p,td);
+  let pts=target.type==='maghrib'?150:100;if(td.ramadanDay%7===0)pts=Math.round(pts*2);
+  log.pts=(log.pts||0)+pts;addPoints(pts,'وصلت لهدف '+target.name);
+  if(target.type==='maghrib'){log.maghribReached=true;confetti()}
+  addActivityLog(p,'وصلت لهدف '+target.name,pts,'approved');
+  checkAch(p);save();renderHome();toast('✅ رائع! +'+pts+' نقطة 🎉');
+}
+function claimMaghrib(){
+  const p=prf();const td=todayTT();if(!p||!td)return;const log=dayLog(p);if(log.maghribReached)return;
+  log.maghribReached=true;const target=getTarget(p,td);const now=new Date();
+  const tt=parseT(target.time,td.dateISO);const bonus=Math.min(50,Math.round((now-tt)/60000));
+  const pts=td.ramadanDay%7===0?bonus*2:bonus;
+  log.pts=(log.pts||0)+pts;addPoints(pts,'بونص المغرب');
+  const y=new Date();y.setDate(y.getDate()-1);const yISO=y.toISOString().split('T')[0];
+  const hadY=p.logs&&p.logs[yISO]&&(p.logs[yISO].targetReached||p.logs[yISO].maghribReached);
+  p.streak=hadY?(p.streak||0)+1:1;p.maxStreak=Math.max(p.maxStreak||0,p.streak);
+  addActivityLog(p,'أتم صيام حتى المغرب',pts,'approved');
+  checkAch(p);save();renderHome();confetti();toast('🌙 أتممت الصيام! +'+pts+' بونص!');
+}
+function confirmAte(reason){
+  const p=prf();if(!p)return;const log=dayLog(p);
+  const td=todayTT();const target=td?getTarget(p,td):null;
+  const now=new Date();let pctDone=0;
+  if(td&&target){const fajrT=parseT(td.fajr,td.dateISO);const targetT=parseT(target.time,td.dateISO);pctDone=Math.max(0,Math.min(1,(now-fajrT)/(targetT-fajrT)))}
+  const basePts=target&&target.type==='maghrib'?150:100;
+  // FIX: Correct point rules per reason
+  const effects={
+    sick:{pts:Math.round(basePts*pctDone),penalty:false,msg:'شفاك الله! نقاط جزئية حسب المدة 💚'},
+    tired:{pts:Math.round(basePts*0.5),penalty:false,msg:'استرح جيداً! نصف النقاط محفوظة 🌙'},
+    forgot:{pts:Math.round(basePts*0.4),penalty:false,msg:'لا بأس! الناسي معذور 😊'},
+    intentional:{pts:0,penalty:true,msg:'حاول أن تكون أقوى غداً 💪'}
+  };
+  const eff=effects[reason]||effects.forgot;
+  log.ateReason=reason;
+  if(eff.pts>0){log.pts=(log.pts||0)+eff.pts;addPoints(eff.pts,'نقاط جزئية')}
+  if(eff.penalty){
+    // Intentional: 0 pts + 50 point penalty
+    p.points=Math.max(0,(p.points||0)-50);
+    p.competitionPoints=Math.max(0,(p.competitionPoints||0)-50);
+    addActivityLog(p,'كسر الصيام عمداً',-50,'approved');
+  } else addActivityLog(p,'كسر الصيام: '+reason,eff.pts,'approved');
+  save();closeModal('m-ate');renderHome();toast(eff.msg);
+}
+function logDeed(id){
+  const p=prf();if(!p)return;const log=dayLog(p);if(!log.deeds)log.deeds=[];if(!log.pendingDeeds)log.pendingDeeds=[];
+  const deed=GOOD_DEEDS.find(d=>d.id===id);if(!deed)return;
+  if((log.deeds||[]).includes(id)){toast('✅ سجّلت هذا العمل من قبل!');return}
+  if((log.pendingDeeds||[]).includes(id)){toast('⏳ بانتظار موافقة الوالد');return}
+  if(deed.needsApproval){log.pendingDeeds.push(id);addActivityLog(p,deed.name,deed.pts,'pending');save();renderDeeds(p,log);toast('⏳ طلب إرسال للوالد للموافقة');}
+  else{log.deeds.push(id);log.pts=(log.pts||0)+deed.pts;addPoints(deed.pts,deed.name);addActivityLog(p,deed.name,deed.pts,'approved');if(log.deeds.length===GOOD_DEEDS.filter(d=>!d.needsApproval).length)checkAch(p);save();renderDeeds(p,log);}
+}
+function toggleQuest(id){
+  const p=prf();if(!p)return;const log=dayLog(p);if(!log.quests)log.quests=[];
+  const q=QUESTS.find(q=>q.id===id);if(!q)return;
+  if(log.quests.includes(id)){log.quests=log.quests.filter(x=>x!==id);p.points=Math.max(0,(p.points||0)-q.pts)}
+  else{log.quests.push(id);log.pts=(log.pts||0)+q.pts;addPoints(q.pts,q.text.substring(0,25));if(log.quests.length===QUESTS.length){toast('🏆 أكملت كل المهام!');checkAch(p)}}
+  save();renderQuests(log);
+}
+
+// ============================================================
+// POINTS & LOG
+// ============================================================
+function addPoints(amount,reason){
+  const p=prf();if(!p)return;
+  // Competition points — only go up
+  if(amount>0){
+    p.points=Math.max(0,(p.points||0)+amount);
+    p.competitionPoints=(p.competitionPoints||0)+amount;
+    p.gems=(p.gems||0)+Math.round(amount*0.5);
+  } else {
+    // Penalties reduce competition points too
+    p.points=Math.max(0,(p.points||0)+amount);
+    p.competitionPoints=Math.max(0,(p.competitionPoints||0)+amount);
+  }
+  save();ptsPopup(amount);
+}
+function ptsPopup(pts){
+  const el=document.createElement('div');el.className='pts-popup'+(pts<0?' pts-neg':'');el.textContent=(pts>0?'+':'')+pts+' '+(pts>0?'✨':'💔');
+  const x=Math.random()*(window.innerWidth*0.4)+window.innerWidth*0.3;el.style.cssText=`left:${x}px;top:${window.innerHeight*0.4}px`;
+  document.body.appendChild(el);setTimeout(()=>el.remove(),1300);
+}
+function addActivityLog(p,action,pts,status){
+  if(!p.activityLog)p.activityLog=[];
+  p.activityLog.unshift({action,pts,status,time:new Date().toISOString(),date:todayISO()});
+  if(p.activityLog.length>100)p.activityLog=p.activityLog.slice(0,100);
+}
+function checkAch(p){
+  const allLogs=Object.values(p.logs||{});const success=allLogs.filter(l=>l.targetReached||l.maghribReached).length;
+  const log=dayLog(p);
+  const checks=[['first',success>=1],['s3',(p.streak||0)>=3],['s7',(p.streak||0)>=7],['s14',(p.streak||0)>=14],['pts500',(p.points||0)>=500],['pts1000',(p.points||0)>=1000],['allDeeds',(log.deeds||[]).length>=GOOD_DEEDS.length],['allQuests',(log.quests||[]).length>=QUESTS.length]];
+  let any=false;checks.forEach(([id,cond])=>{if(cond&&!(p.achievements||[]).includes(id)){if(!p.achievements)p.achievements=[];p.achievements.push(id);const a=ACHIEVEMENTS.find(x=>x.id===id);if(a)toast('🏅 وسام جديد: '+a.name+' '+a.icon);any=true}});
+  if(any)save();
+}
+
+// ============================================================
+// PROGRESS
+// ============================================================
+function renderProgress(){
+  const p=prf();if(!p)return;const pts=p.points||0;const lv=getLevel(pts);const next=getNextLevel(pts);
+  const xpPct=next?Math.round((pts-lv.t)/(next.t-lv.t)*100):100;
+  document.getElementById('pr-level').textContent=lv.name;
+  document.getElementById('pr-xp').style.width=xpPct+'%';
+  document.getElementById('pr-xp-lbl').textContent=pts+' / '+(next?next.t:pts)+' نقطة';
+  const allLogs=Object.values(p.logs||{});
+  const sd=allLogs.filter(l=>l.targetReached||l.maghribReached).length;
+  document.getElementById('st-pts').textContent=pts;
+  document.getElementById('st-streak').textContent=(p.streak||0)+'🔥';
+  document.getElementById('st-days').textContent=sd;
+  document.getElementById('st-grace').textContent=p.graceTokens||0;
+
+  // Journey levels list
+  const jl=document.getElementById('journey-list');
+  if(jl){
+    jl.innerHTML=JOURNEY.map((j,idx)=>{
+      const done=pts>=j.req;
+      const cur=done&&(!JOURNEY[idx+1]||pts<JOURNEY[idx+1].req);
+      return`<div class="journey-item${done?' done':''}${cur?' current':''}"><span style="font-size:1.4rem">${j.icon}</span><span style="flex:1;font-weight:700">${j.name}</span><span class="text-muted text-xs">${j.req} نقطة</span>${done?'<span style="color:var(--green)">✓</span>':''}</div>`;
+    }).join('');
+  }
+
+  // Quiz path
+  renderQuizPath(p);
+
+  // Achievements
+  const ag=document.getElementById('ach-grid');
+  ag.innerHTML=ACHIEVEMENTS.map(a=>{const u=(p.achievements||[]).includes(a.id);return`<div class="ach-card${u?' unlocked':''}"><div style="font-size:1.5rem;${u?'':'filter:grayscale(1);opacity:0.4'}">${a.icon}</div><div style="font-size:0.72rem;font-weight:700;margin-top:3px">${a.name}</div><div class="text-xs text-muted">${a.desc}</div></div>`;}).join('');
+
+  // Activity log
+  const al=document.getElementById('activity-log');
+  const logs=(p.activityLog||[]).slice(0,20);
+  if(!logs.length){al.innerHTML='<p class="text-muted text-sm text-center">لا توجد أنشطة بعد</p>';return}
+  const statusLabel={pending:'⏳ انتظار',approved:'✅ موافق',rejected:'❌ مرفوض'};
+  const statusCls={pending:'log-pending',approved:'log-approved',rejected:'log-rejected'};
+  al.innerHTML=logs.map(l=>`<div class="log-item ${statusCls[l.status]||''}"><div class="bold text-sm">${l.action}</div><div class="log-meta"><span>${new Date(l.time).toLocaleDateString('ar-SA',{month:'short',day:'numeric'})}</span><span style="font-weight:700;color:${l.pts>=0?'var(--green)':'var(--rose)'}">${l.pts>=0?'+':''}${l.pts}</span><span class="badge" style="background:${l.status==='approved'?'var(--green)':l.status==='rejected'?'var(--rose)':'var(--accent)'}">${statusLabel[l.status]||l.status}</span></div></div>`).join('');
+}
+
+// ============================================================
+// ADVENTURE MAP — 29-day quiz journey
+// ============================================================
+function renderQuizPath(p){
+  const map=document.getElementById('quiz-path-map');if(!map)return;
+  const qc=document.getElementById('quiz-container');
+  if(qc)qc.innerHTML='';
+
+  const TOTAL=29;
+  const todayTd=todayTT();
+  const todayDay=todayTd?todayTd.ramadanDay:1;
+
+  // Build day states
+  const DS=[];
+  for(let d=1;d<=TOTAL;d++){
+    const td=STATE.timetable.find(t=>t.ramadanDay===d);
+    const dk=td?td.dateISO:null;
+    const lg=dk&&p.logs&&p.logs[dk]?p.logs[dk]:null;
+    let state='locked';
+    if(d<todayDay)state=(lg&&lg.quizDone)?'done':'missed';
+    else if(d===todayDay)state='today';
+    DS.push({day:d,state,dateISO:dk});
+  }
+
+  // Zone definitions — each row has its own biome
+  const ZONES=[
+    {name:'القرية',emoji:'🏘️',bg:'linear-gradient(180deg,#c8f5c8 0%,#a8e6a0 100%)',ground:'#6dbf5a',path:'#fff',accent:'#2d7a2d',desc:'ابدأ رحلتك من القرية!',deco:['🌻','🌿','🐓','🏡','🌷']},
+    {name:'الغابة',emoji:'🌲',bg:'linear-gradient(180deg,#2d5a1b 0%,#1a4010 100%)',ground:'#1a4010',path:'#7ecf5a',accent:'#b8ff80',desc:'اخترق الغابة الكثيفة',deco:['🦋','🍄','🐿️','🦜','🌿']},
+    {name:'الجبال',emoji:'⛰️',bg:'linear-gradient(180deg,#b0c4d8 0%,#7a9ab0 100%)',ground:'#7a9ab0',path:'#fff',accent:'#e8f4ff',desc:'تسلّق قمم الجبال الشاهقة',deco:['🦅','❄️','🏔️','🐐','⛄']},
+    {name:'الصحراء',emoji:'🏜️',bg:'linear-gradient(180deg,#f5d070 0%,#e8a830 100%)',ground:'#c47c10',path:'#fff8dc',accent:'#8b4513',desc:'اعبر الصحراء الذهبية',deco:['🐪','🌵','🦎','⭐','🌅']},
+    {name:'البحر',emoji:'🌊',bg:'linear-gradient(180deg,#006994 0%,#003f6b 100%)',ground:'#003f6b',path:'#80d4ff',accent:'#c0f0ff',desc:'ابحر في أمواج البحر',deco:['🐬','🐠','⚓','🦈','🌟']},
+    {name:'القلعة',emoji:'🏰',bg:'linear-gradient(180deg,#4a1a6e 0%,#2a0a4e 100%)',ground:'#2a0a4e',path:'#ffd700',accent:'#ffe066',desc:'أكمل رحلتك ونل التاج!',deco:['👑','💎','🌟','🎆','🏆']}
+  ];
+
+  // Node styles per state
+  const nodeStyle={
+    done:{ring:'#2ecc71',bg:'linear-gradient(135deg,#2ecc71,#27ae60)',icon:'✅',numColor:'#fff',shadow:'0 4px 15px rgba(46,204,113,.5)'},
+    missed:{ring:'#e74c3c',bg:'linear-gradient(135deg,#e74c3c,#c0392b)',icon:'💔',numColor:'#fff',shadow:'0 4px 12px rgba(231,76,60,.4)'},
+    today:{ring:'#f0b429',bg:'linear-gradient(135deg,#ffe066,#f0b429)',icon:'🌟',numColor:'#5a2d00',shadow:'0 0 0 6px rgba(240,180,41,.3),0 4px 20px rgba(240,180,41,.6)',anim:'animation:pulse-today 1.8s ease-in-out infinite'},
+    locked:{ring:'rgba(255,255,255,0.2)',bg:'rgba(255,255,255,0.1)',icon:'🔒',numColor:'rgba(255,255,255,0.4)',shadow:'none'}
+  };
+
+  // Build HTML
+  let html=`
+  <style>
+    .adventure-map{border-radius:20px;overflow:hidden;position:relative;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+    .zone-row{position:relative;padding:18px 12px 14px;overflow:hidden;min-height:110px;display:flex;flex-direction:column;justify-content:center}
+    .zone-label{position:absolute;top:6px;right:10px;font-size:0.62rem;font-weight:900;opacity:0.7;text-shadow:0 1px 3px rgba(0,0,0,.5);color:#fff}
+    .zone-deco{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden}
+    .deco-item{position:absolute;font-size:1.1rem;opacity:0.35;user-select:none}
+    .map-row{display:flex;align-items:center;justify-content:center;gap:0;position:relative;z-index:2}
+    .map-node-wrap{display:flex;flex-direction:column;align-items:center;position:relative}
+    .map-node{border:none;padding:0;cursor:pointer;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--font);transition:transform .18s,box-shadow .18s;flex-shrink:0;position:relative}
+    .map-node:not(:disabled):hover{transform:scale(1.18)!important;z-index:10}
+    .map-node:disabled{cursor:default;pointer-events:none}
+    .map-node .nday{font-size:.72rem;font-weight:900;line-height:1.1;display:block}
+    .map-node .nico{font-size:.85rem;line-height:1;display:block}
+    .map-node.is-milestone{width:60px!important;height:60px!important}
+    .map-connector{height:5px;border-radius:3px;flex:1;min-width:4px;max-width:20px;align-self:center;position:relative}
+    .map-connector.dotted{background:repeating-linear-gradient(90deg,rgba(255,255,255,.6) 0,rgba(255,255,255,.6) 4px,transparent 4px,transparent 9px);height:4px}
+    .map-vline{width:5px;border-radius:3px;height:22px;margin:1px 0}
+    .milestone-flag{position:absolute;top:-22px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:0.55rem;font-weight:900;background:rgba(0,0,0,.55);color:#ffd700;padding:2px 6px;border-radius:6px;border:1px solid rgba(255,215,0,.4);backdrop-filter:blur(4px)}
+    .explorer-bubble{position:absolute;top:-28px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:1.3rem;animation:bounce-exp 1s ease-in-out infinite}
+    @keyframes bounce-exp{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-5px)}}
+    .map-legend{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:10px 8px;background:var(--surf2);border-radius:0 0 20px 20px;border:1px solid var(--bdr);border-top:none}
+    .map-legend-item{display:flex;align-items:center;gap:4px;font-size:0.7rem;font-weight:700;color:var(--text)}
+    .map-legend-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+    .map-hint{text-align:center;font-size:0.72rem;color:var(--muted);padding:6px 0 2px;font-weight:700}
+  </style>
+  <div class="map-hint">👆 اضغط على أي محطة لتبدأ أسئلتها!</div>
+  <div class="adventure-map">`;
+
+  // Group days into rows of 5 (snake)
+  const COLS=5;
+  const totalRows=Math.ceil(TOTAL/COLS);
+
+  for(let row=0;row<totalRows;row++){
+    const zone=ZONES[Math.min(row,ZONES.length-1)];
+    const isReverse=(row%2===1);
+    const logStart=row*COLS+1;
+    const logical=[];
+    for(let c=0;c<COLS&&(logStart+c)<=TOTAL;c++) logical.push(DS[logStart+c-1]);
+    const display=isReverse?[...logical].reverse():logical;
+
+    // Milestone days
+    const milestones={7:'⭐ أسبوع',14:'🏆 نصف شهر',21:'💪 ثلاثة أرباع',29:'👑 الختام'};
+
+    // Decorations scattered in background
+    const decoHtml=zone.deco.map((d,i)=>{
+      const left=[8,20,35,55,70,80,90,15,45,65][i]||Math.random()*85+5;
+      const top=[15,60,30,70,20,50,80,40,25,65][i]||Math.random()*70+10;
+      return`<span class="deco-item" style="left:${left}%;top:${top}%">${d}</span>`;
+    }).join('');
+
+    html+=`<div class="zone-row" style="background:${zone.bg}">
+      <div class="zone-deco">${decoHtml}</div>
+      <div class="zone-label">${zone.emoji} ${zone.name}</div>
+      <div class="map-row">`;
+
+    display.forEach((ds,i)=>{
+      const isLast=(i===display.length-1);
+      const isMilestone=!!(milestones[ds.day]);
+      const ns=nodeStyle[ds.state];
+      const sz=isMilestone?60:50;
+      const isToday=ds.state==='today';
+
+      html+=`<div class="map-node-wrap" style="${isMilestone?'margin-top:4px':''}">
+        ${isMilestone?`<div class="milestone-flag">${milestones[ds.day]}</div>`:''}
+        ${isToday?`<div class="explorer-bubble">🧒</div>`:''}
+        <button class="map-node${isMilestone?' is-milestone':''}" data-quizday="${ds.day}"
+          style="width:${sz}px;height:${sz}px;background:${ns.bg};box-shadow:${ns.shadow};${ns.anim||''};border:3px solid ${ns.ring}"
+          ${ds.state==='locked'?'disabled':''}>
+          <span class="nday" style="color:${ns.numColor}">${ds.day}</span>
+          <span class="nico">${ns.icon}</span>
+        </button>
+      </div>`;
+
+      if(!isLast){
+        const nxt=display[i+1];
+        const bothDone=ds.state==='done'&&(nxt.state==='done'||nxt.state==='today');
+        const connStyle=bothDone
+          ?`background:linear-gradient(90deg,#2ecc71,#52d68a)`
+          :ds.state==='today'
+            ?`background:linear-gradient(90deg,#f0b429,rgba(255,255,255,.3))`
+            :`background:rgba(255,255,255,.25)`;
+        html+=`<div class="map-connector ${!bothDone&&ds.state!=='today'?'dotted':''}" style="${bothDone||ds.state==='today'?connStyle:''}"></div>`;
+      }
+    });
+
+    html+=`</div>`; // map-row
+
+    // Vertical connector between rows
+    if(row<totalRows-1){
+      const lastLogical=logical[logical.length-1];
+      const vDone=lastLogical.state==='done';
+      const vStyle=vDone?'background:linear-gradient(180deg,#2ecc71,#52d68a)':'background:rgba(255,255,255,.3)';
+      const align=isReverse?'justify-content:flex-start;padding-right:calc(50% + 32px)':'justify-content:flex-end;padding-left:calc(50% + 32px)';
+      html+=`<div style="display:flex;${align};position:relative;z-index:2">
+        <div class="map-vline ${!vDone?'dotted':''}" style="${vStyle}"></div>
+      </div>`;
+    }
+
+    html+=`</div>`; // zone-row
+  }
+
+  html+=`</div>`; // adventure-map
+
+  // Legend
+  html+=`<div class="map-legend">
+    <div class="map-legend-item"><div class="map-legend-dot" style="background:#2ecc71"></div>أجاب ✅</div>
+    <div class="map-legend-item"><div class="map-legend-dot" style="background:#e74c3c"></div>فاته 💔</div>
+    <div class="map-legend-item"><div class="map-legend-dot" style="background:#f0b429"></div>اليوم 🌟</div>
+    <div class="map-legend-item"><div class="map-legend-dot" style="background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3)"></div>قادم 🔒</div>
+  </div>`;
+
+  map.innerHTML=html;
+
+  // Wire clicks
+  map.querySelectorAll('[data-quizday]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const day=parseInt(btn.dataset.quizday);
+      map.style.display='none';
+      startQuizForDay(day);
+    });
+  });
+}
+
+
+// ============================================================
+// SHOP
+// ============================================================
+function renderShop(){
+  const p=prf();if(!p)return;
+  const gems=p.gems||0;
+  const compPts=p.competitionPoints||p.points||0;
+  const gemsEl=document.getElementById('shop-gems');if(gemsEl)gemsEl.textContent=gems;
+  const compEl=document.getElementById('shop-comp-pts');if(compEl)compEl.textContent=compPts;
+  const sg=document.getElementById('shop-grid');
+  sg.innerHTML=SHOP_ITEMS.map(item=>{const owned=(p.inventory||[]).includes(item.id);const can=gems>=item.price;return`<div class="shop-item${owned?' owned':''}"><div style="font-size:2rem">${item.icon}</div><div class="bold text-sm" style="margin-top:5px">${item.name}</div><div class="text-xs text-muted" style="margin:3px 0">${item.desc}</div><div style="color:var(--teal);font-weight:900;margin:5px 0">💎 ${item.price}</div><button class="btn${owned?' btn-ghost':!can?' btn-ghost':' btn-primary'} btn-sm" style="width:100%;margin-top:4px" data-iid="${item.id}" ${owned||!can?'disabled':''}>${owned?'✓ مملوك':!can?'جواهر أقل':'اشترِ'}</button></div>`}).join('');
+  sg.querySelectorAll('[data-iid]').forEach(b=>b.addEventListener('click',()=>buyItem(b.dataset.iid)));
+}
+function buyItem(id){
+  const p=prf();if(!p)return;const item=SHOP_ITEMS.find(i=>i.id===id);if(!item)return;
+  // FIX: Use gems only — competition points NEVER reduced
+  if((p.gems||0)<item.price){toast('💎 جواهرك غير كافية!');return}
+  if((p.inventory||[]).includes(id)){toast('✅ مملوك!');return}
+  p.gems=Math.max(0,(p.gems||0)-item.price);// FIX: prevent negative gems
+  if(!p.inventory)p.inventory=[];p.inventory.push(id);
+  if(item.id==='grace')p.graceTokens=(p.graceTokens||0)+1;
+  if(item.id==='chest'){const bonus=30+Math.floor(Math.random()*70);p.gems=(p.gems||0)+bonus;const cm=document.getElementById('chest-msg');if(cm)cm.textContent='+'+bonus+' جوهرة مكافأة! 🎉';showModal('m-chest')}
+  if(item.id==='dates'){p.gems=(p.gems||0)+30}
+  addActivityLog(p,'اشترى '+item.name,-item.price,'approved');save();renderShop();toast('🎉 اشتريت '+item.name+'!');
+}
+
+// ============================================================
+// PROFILES
+// ============================================================
+function renderProfiles(){
+  const el=document.getElementById('profiles-list');if(!el)return;
+  const localId=getLocalSession();
+  const sorted=[...STATE.profiles].sort((a,b)=>(b.points||0)-(a.points||0));
+  const medals=['🥇','🥈','🥉'];
+  el.innerHTML=sorted.map((p,i)=>{
+    const isMe=p.id===localId;
+    return`<div class="child-card${isMe?' card-accent':''}" style="pointer-events:none">
+      <span style="font-size:1.5rem">${medals[i]||'#'+(i+1)}</span>
+      <span style="font-size:2rem">${p.avatar}</span>
+      <div style="flex:1;min-width:0">
+        <div class="bold" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.name}${isMe?' 👈 أنت':''}</div>
+        <div class="text-xs text-muted">${p.points||0} نقطة • ${getLevel(p.points||0).name}</div>
+      </div>
+      ${isMe?`<span style="font-size:0.7rem;background:var(--accent);color:var(--text-on-accent);padding:2px 8px;border-radius:10px;font-weight:900">أنت</span>`:''}
+    </div>`;
+  }).join('');
+}
+function switchProfile(id){
+  STATE.currentId=id;
+  setLocalSession(id);
+  saveLocal(); // local only
+  loadProfileTheme(); // each profile has its own theme on this device
+  if(timerInterval)clearInterval(timerInterval);
+  startTimers();showScreen('home');
+  const p=STATE.profiles.find(x=>x.id===id);
+  if(p)toast('👋 مرحباً '+p.name+'!');
+}
+
+// ============================================================
+// CERTIFICATE
+// ============================================================
+function renderCertificate(){
+  const p=prf();if(!p)return;const allLogs=Object.values(p.logs||{});const days=allLogs.filter(l=>l.targetReached||l.maghribReached).length;
+  document.getElementById('cert-av').textContent=p.avatar;document.getElementById('cert-name').textContent=p.name;
+  document.getElementById('cert-level').textContent=getLevel(p.points||0).name;
+  document.getElementById('cert-days').textContent=days+' يوم';document.getElementById('cert-pts').textContent=p.points||0;
+  document.getElementById('cert-streak').textContent=p.maxStreak||p.streak||0;
+  document.getElementById('cert-date').textContent=new Date().toLocaleDateString('ar-SA',{year:'numeric',month:'long',day:'numeric'});
+  const sorted=[...STATE.profiles].sort((a,b)=>(b.points||0)-(a.points||0));
+  document.getElementById('cert-ranks').innerHTML=sorted.map((pr,i)=>`<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--bdr);font-size:0.88rem"><span>${['🥇','🥈','🥉'][i]||i+1+'.'} ${pr.avatar} ${pr.name}</span><span>${pr.points||0} نقطة</span></div>`).join('');
+}
+
+// ============================================================
+// PARENT PANEL
+// ============================================================
+// PARENT PIN — stored in localStorage only, separate from game state
+// ============================================================
+const PIN_KEY = 'lfa_parent_pin';
+function getStoredPin(){return localStorage.getItem(PIN_KEY)||''}
+function setStoredPin(p){localStorage.setItem(PIN_KEY,p)}
+
+function renderParent(){
+  document.getElementById('parent-panel').classList.add('hidden');
+  const hasPin = getStoredPin().length >= 4;
+  if(hasPin){
+    // Show enter-PIN screen
+    document.getElementById('parent-create-pin').classList.add('hidden');
+    document.getElementById('parent-lock').classList.remove('hidden');
+    document.getElementById('math-ans').value='';
+    setTimeout(()=>document.getElementById('math-ans').focus(),100);
+  } else {
+    // First time — show create-PIN screen
+    document.getElementById('parent-lock').classList.add('hidden');
+    document.getElementById('parent-create-pin').classList.remove('hidden');
+    document.getElementById('pin-create-1').value='';
+    document.getElementById('pin-create-2').value='';
+    setTimeout(()=>document.getElementById('pin-create-1').focus(),100);
+  }
+  if(!STATE.familyCode||STATE.familyCode.length<6){
+    STATE.familyCode=Math.random().toString(36).substring(2,8).toUpperCase();
+    // Push immediately to Supabase so children can join
+    saveLocal();
+    if(SB){
+      SB.from('families').upsert({
+        family_code: STATE.familyCode,
+        state_json: JSON.stringify(STATE),
+        updated_at: new Date().toISOString()
+      },{onConflict:'family_code'}).then(({error})=>{
+        if(error) console.warn('Supabase family create error',error);
+        else { showSyncDot(); subscribeToFamily(); }
+      });
+    }
+  }
+}
+
+function unlockParent(){
+  document.getElementById('parent-lock').classList.add('hidden');
+  document.getElementById('parent-create-pin').classList.add('hidden');
+  document.getElementById('parent-panel').classList.remove('hidden');
+  openParentTab('children');
+}
+
+function checkPin(){
+  const entered=(document.getElementById('math-ans').value||'').trim();
+  if(entered===getStoredPin()){
+    unlockParent();
+  } else {
+    toast('❌ الرقم السري غير صحيح');
+    document.getElementById('math-ans').value='';
+    document.getElementById('math-ans').focus();
+  }
+}
+
+function savePinSetup(){
+  const p1=(document.getElementById('pin-create-1').value||'').trim();
+  const p2=(document.getElementById('pin-create-2').value||'').trim();
+  if(p1.length<4){toast('⚠️ الرقم السري يجب أن يكون 4 أرقام على الأقل');return}
+  if(p1!==p2){toast('❌ الرقمان غير متطابقان');document.getElementById('pin-create-2').value='';document.getElementById('pin-create-2').focus();return}
+  setStoredPin(p1);
+  toast('✅ تم حفظ الرقم السري!');
+  unlockParent();
+}
+
+function forgotPin(){
+  if(!confirm('هل تريد حذف الرقم السري الحالي وإنشاء رقم جديد؟\n(لن تُحذف بيانات الأطفال)'))return;
+  localStorage.removeItem(PIN_KEY);
+  renderParent();
+  toast('تم إعادة ضبط الرقم السري');
+}
+function openParentTab(tab){
+  ['children','deeds','fasting','questions','rewards','settings'].forEach(t=>{
+    const tc=document.getElementById('ptab-'+t+'-content');if(tc)tc.classList.toggle('hidden',t!==tab);
+    const tb=document.getElementById('ptab-'+t);if(tb){tb.classList.toggle('active',t===tab);}
+  });
+  if(tab==='children')renderParentChildren();
+  if(tab==='deeds')renderParentDeeds();
+  if(tab==='fasting')renderFastingTab();
+  if(tab==='questions'){renderCustomQuestions();document.getElementById('quiz-hour').value=STATE.quizHour||16}
+  if(tab==='rewards')renderRewards();
+  if(tab==='settings')renderAllThemeGrids();
+}
+function renderParentChildren(){
+  const el=document.getElementById('parent-children-list');
+  el.innerHTML=STATE.profiles.map(p=>`<div class="child-card"><span style="font-size:2rem">${p.avatar}</span><div style="flex:1;min-width:0"><div class="bold" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.name}</div><div class="text-xs text-muted">${p.points||0} نقطة • ${getLevel(p.points||0).name}</div><div class="text-xs text-muted">💎 ${p.gems||0} • سلسلة: ${p.streak||0}🔥 • درع: ${p.graceTokens||0}</div></div><button class="btn btn-danger btn-sm" data-remove="${p.id}">🗑️</button></div>`).join('');
+  // FIX: Parent can remove child
+  el.querySelectorAll('[data-remove]').forEach(b=>b.addEventListener('click',e=>{
+    e.stopPropagation();
+    const pid=b.dataset.remove;const prof=STATE.profiles.find(x=>x.id===pid);
+    if(!prof||!confirm('حذف '+prof.name+'؟'))return;
+    STATE.profiles=STATE.profiles.filter(x=>x.id!==pid);
+    if(STATE.currentId===pid)STATE.currentId=STATE.profiles[0]?.id||null;
+    save();renderParentChildren();toast('تم الحذف');
+  }));
+  document.getElementById('family-code').textContent=STATE.familyCode||'——';
+  // Check Supabase status
+  const stEl=document.getElementById('supabase-status');
+  if(stEl){
+    if(!SB) stEl.innerHTML='❌ Supabase غير مُهيَّأ';
+    else if(!STATE.familyCode) stEl.innerHTML='⚠️ لا يوجد رمز — افتح اللوحة لإنشائه';
+    else stEl.innerHTML='🔄 جارٍ التحقق... اضغط "اختبار الاتصال"';
+  }
+  const opts=STATE.profiles.map(p=>`<option value="${p.id}">${p.avatar} ${p.name}</option>`).join('');
+  ['bad-deed-child','edit-pts-child','edit-gems-child','rew-child','log-filter-child','fasting-child-select'].forEach(id=>{const el=document.getElementById(id);if(el){const def=id==='log-filter-child'?'<option value="">الكل</option>':'<option value="">اختر الطفل...</option>';el.innerHTML=def+opts}});
+  const bsel=document.getElementById('bad-deed-select');if(bsel)bsel.innerHTML=`<option value="">اختر السلوك...</option>${(STATE.badDeeds||[]).map(b=>`<option value="${b.id}">${b.name} (${b.pts})</option>`).join('')}`;
+}
+// FIX: Fasting tab (Phase 1.8)
+function renderFastingTab(){
+  selectedFastingReason=null;
+  const sel=document.getElementById('fasting-child-select');if(!sel)return;
+  sel.innerHTML='<option value="">اختر الطفل...</option>'+STATE.profiles.map(p=>`<option value="${p.id}">${p.avatar} ${p.name}</option>`).join('');
+  sel.onchange=()=>{renderFastingLog(sel.value);};
+  document.querySelectorAll('[data-fasting-reason]').forEach(b=>{b.addEventListener('click',()=>{selectedFastingReason=b.dataset.fastingReason;document.querySelectorAll('[data-fasting-reason]').forEach(x=>x.className='btn btn-ghost btn-sm');b.className='btn btn-primary btn-sm';})});
+  document.getElementById('btn-update-fasting').onclick=()=>{
+    const pid=document.getElementById('fasting-child-select').value;if(!pid||!selectedFastingReason){toast('اختر الطفل والحالة');return;}
+    const p=STATE.profiles.find(x=>x.id===pid);if(!p)return;
+    const today=todayKey();if(!p.logs[today])p.logs[today]={};
+    p.logs[today].ateReason=selectedFastingReason;
+    toast('✅ تم تحديث حالة الصيام');save();renderFastingLog(pid);
+  };
+}
+function renderFastingLog(pid){
+  const el=document.getElementById('fasting-log-list');if(!el)return;
+  if(!pid){el.innerHTML='<p class="text-muted text-sm text-center">اختر طفلاً أولاً</p>';return;}
+  const p=STATE.profiles.find(x=>x.id===pid);if(!p){el.innerHTML='';return;}
+  const reasons={intentional:'😞 متعمد',sick:'🤒 مريض',tired:'😴 تعب',forgot:'😅 نسيان',completed:'✅ أكمل',undefined:'—'};
+  const days=Object.keys(p.logs||{}).sort().reverse().slice(0,30);
+  el.innerHTML=days.length?days.map(d=>{const log=p.logs[d];const r=log.ateReason||'completed';return`<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 10px;background:var(--surf2);border-radius:10px;margin-bottom:5px"><span class="text-sm">${d}</span><span class="bold text-sm">${reasons[r]||r}</span><span class="text-xs text-muted">${log.pts||0} نقطة</span></div>`}).join(''):'<p class="text-muted text-sm text-center">لا توجد بيانات</p>';
+}
+function renderParentDeeds(){
+  renderParentChildren();
+  const el=document.getElementById('pending-deeds-list');
+  let pending=[];
+  STATE.profiles.forEach(p=>{(p.activityLog||[]).filter(l=>l.status==='pending').forEach(l=>{pending.push({...l,pId:p.id,pName:p.name,pAv:p.avatar})})});
+  if(!pending.length){el.innerHTML='<p class="text-muted text-sm text-center">لا توجد طلبات معلقة</p>';return}
+  el.innerHTML=pending.map((l,i)=>`<div class="log-item log-pending"><div class="flex gap-8"><span style="font-size:1.3rem">${l.pAv}</span><div style="flex:1"><div class="bold text-sm">${l.pName}: ${l.action}</div><div class="text-xs text-muted">+${l.pts} نقطة</div></div><div class="flex gap-6"><button class="btn btn-success btn-sm" data-pi="${i}" data-act="approve">✓</button><button class="btn btn-danger btn-sm" data-pi="${i}" data-act="reject">✗</button></div></div></div>`).join('');
+  el.querySelectorAll('[data-act]').forEach(b=>b.addEventListener('click',()=>approveDeed(pending[parseInt(b.dataset.pi)],b.dataset.act==='approve')));
+  renderParentLog();
+}
+function approveDeed(entry,approve){
+  const p=STATE.profiles.find(x=>x.id===entry.pId);if(!p)return;
+  const logEntry=p.activityLog&&p.activityLog.find(l=>l.time===entry.time&&l.status==='pending');
+  if(logEntry)logEntry.status=approve?'approved':'rejected';
+  if(approve){
+    const deed=GOOD_DEEDS.find(d=>d.name===entry.action);
+    if(deed){const log=dayLog(p,entry.date);if(!log.deeds)log.deeds=[];if(!log.pendingDeeds)log.pendingDeeds=[];log.pendingDeeds=log.pendingDeeds.filter(id=>id!==deed.id);log.deeds.push(deed.id);p.points=(p.points||0)+deed.pts}
+  }
+  save();renderParentDeeds();toast(approve?'✅ تمت الموافقة':'❌ تم الرفض');
+}
+function renderParentLog(){
+  const filter=document.getElementById('log-filter-child')?.value;const el=document.getElementById('parent-log-list');
+  let entries=[];
+  STATE.profiles.filter(p=>!filter||p.id===filter).forEach(p=>(p.activityLog||[]).slice(0,20).forEach(l=>entries.push({...l,pName:p.name,pAv:p.avatar})));
+  entries.sort((a,b)=>new Date(b.time)-new Date(a.time));entries=entries.slice(0,30);
+  const stl={pending:'log-pending',approved:'log-approved',rejected:'log-rejected'};
+  const stLbl={pending:'⏳',approved:'✅',rejected:'❌'};
+  el.innerHTML=entries.length?entries.map(l=>`<div class="log-item ${stl[l.status]||''}"><div class="flex gap-8"><span>${l.pAv}</span><div style="flex:1"><div class="text-sm bold">${l.pName}: ${l.action}</div><div class="log-meta"><span>${new Date(l.time).toLocaleDateString('ar-SA',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})}</span><span style="color:${l.pts>=0?'var(--green)':'var(--rose)'};font-weight:700">${l.pts>=0?'+':''}${l.pts}</span><span>${stLbl[l.status]||''}</span></div></div></div></div>`).join(''):'<p class="text-muted text-sm text-center">لا توجد سجلات</p>';
+}
+function addBadDeed(){
+  const bsel=document.getElementById('bad-deed-select');const csel=document.getElementById('bad-deed-child');
+  const badId=bsel?.value;const childId=csel?.value;
+  if(!badId||!childId){toast('⚠️ اختر السلوك والطفل');return}
+  const bd=STATE.badDeeds.find(b=>b.id===badId);const p=STATE.profiles.find(x=>x.id===childId);
+  if(!bd||!p){toast('⚠️ بيانات غير صحيحة');return}
+  const log=dayLog(p);if(!log.badDeeds)log.badDeeds=[];log.badDeeds.push({id:badId,time:Date.now()});
+  p.points=Math.max(0,(p.points||0)+bd.pts);addActivityLog(p,'ملاحظة: '+bd.name,bd.pts,'approved');
+  ptsPopup(bd.pts);save();toast('تم إضافة الملاحظة لـ '+p.name);
+}
+function editPoints(add){
+  const csel=document.getElementById('edit-pts-child');const vEl=document.getElementById('edit-pts-val');
+  const childId=csel?.value;const val=parseInt(vEl?.value||0);
+  if(!childId||isNaN(val)||val<=0){toast('⚠️ اختر الطفل وأدخل عدد النقاط');return}
+  const p=STATE.profiles.find(x=>x.id===childId);if(!p)return;
+  const change=add?val:-val;p.points=Math.max(0,(p.points||0)+change);
+  if(add){p.competitionPoints=Math.max(0,(p.competitionPoints||0)+change);}
+  addActivityLog(p,(add?'إضافة':'خصم')+' نقاط من الوالد',change,'approved');
+  save();renderParentChildren();if(vEl)vEl.value='';toast((add?'✅ أضفت ':' خصمت ')+val+' نقطة لـ '+p.name);
+}
+function editGems(add){
+  const csel=document.getElementById('edit-gems-child');const vEl=document.getElementById('edit-gems-val');
+  const childId=csel?.value;const val=parseInt(vEl?.value||0);
+  if(!childId||isNaN(val)||val<=0){toast('⚠️ اختر الطفل وأدخل عدد الجواهر');return}
+  const p=STATE.profiles.find(x=>x.id===childId);if(!p)return;
+  if(add){
+    p.gems=(p.gems||0)+val;
+    addActivityLog(p,'هدية جواهر من الوالد 💎',val,'approved');
+    toast('💎 أضفت '+val+' جوهرة لـ '+p.name);
+  } else {
+    p.gems=Math.max(0,(p.gems||0)-val);
+    addActivityLog(p,'خصم جواهر',-val,'approved');
+    toast('💎 خصمت '+val+' جوهرة من '+p.name);
+  }
+  save();renderParentChildren();if(vEl)vEl.value='';
+}
+function addReward(){
+  const csel=document.getElementById('rew-child');const desc=document.getElementById('rew-desc')?.value.trim();
+  const childId=csel?.value;
+  if(!childId||!desc){toast('⚠️ اختر الطفل واكتب المكافأة');return}
+  const p=STATE.profiles.find(x=>x.id===childId);if(!p)return;
+  if(!STATE.rewards)STATE.rewards=[];
+  STATE.rewards.push({childId,childName:p.name,childAv:p.avatar,desc,time:Date.now()});
+  save();renderRewards();document.getElementById('rew-desc').value='';toast('🎁 تمت إضافة المكافأة!');
+}
+function renderRewards(){
+  const el=document.getElementById('rewards-list');const rws=STATE.rewards||[];
+  if(!rws.length){el.innerHTML='<p class="text-muted text-sm text-center">لا توجد مكافآت بعد</p>';return}
+  el.innerHTML=[...rws].reverse().map((r,i)=>`<div class="log-item"><div class="flex gap-8"><span style="font-size:1.5rem">${r.childAv}</span><div style="flex:1"><div class="bold text-sm">${r.childName}: ${r.desc}</div><div class="text-xs text-muted">${new Date(r.time).toLocaleDateString('ar-SA',{month:'short',day:'numeric'})}</div></div><button class="btn btn-danger btn-sm" data-ri="${rws.length-1-i}">🗑️</button></div></div>`).join('');
+  el.querySelectorAll('[data-ri]').forEach(b=>b.addEventListener('click',()=>{STATE.rewards.splice(parseInt(b.dataset.ri),1);save();renderRewards()}));
+}
+function saveTimetable(){
+  try{const d=JSON.parse(document.getElementById('tt-json').value);if(Array.isArray(d)&&d.length){STATE.timetable=d;save();toast('✅ تم حفظ الجدول!')}}catch{toast('⚠️ خطأ في صيغة JSON')}
+}
+function resetMonth(){
+  if(!confirm('هل أنت متأكد؟ سيُحذف كل التقدم!'))return;
+  STATE.profiles.forEach(p=>{p.points=0;p.streak=0;p.maxStreak=0;p.logs={};p.achievements=[];p.graceTokens=3;p.seenQuestions=[];p.activityLog=[];p.inventory=[]});
+  STATE.eidConfirmed=false;STATE.eidModalShown=false;STATE.ramadanDays=30;STATE.rewards=[];
+  save();showScreen('home');toast('✅ تمت إعادة التعيين');
+}
+// Custom Questions
+function renderCustomQuestions(){
+  const cq=STATE.customQuestions||[];const search=document.getElementById('cq-search')?.value?.toLowerCase()||'';
+  const filtered=search?cq.filter(q=>q.q.toLowerCase().includes(search)):cq;
+  document.getElementById('cq-count').textContent=cq.length;
+  const el=document.getElementById('cq-list');
+  if(!filtered.length){el.innerHTML='<p class="text-muted text-sm text-center mt-8">لا توجد أسئلة</p>';return}
+  el.innerHTML=filtered.map((q,i)=>`<div style="display:flex;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--bdr)"><span style="flex:1;font-size:0.82rem">${q.q.substring(0,50)}…</span><span class="badge" style="font-size:0.68rem">${q.diff==='hard'?'صعب':q.diff==='medium'?'متوسط':'سهل'}</span><button class="btn btn-danger btn-sm" data-ci="${i}">🗑️</button></div>`).join('');
+  el.querySelectorAll('[data-ci]').forEach(b=>b.addEventListener('click',()=>{STATE.customQuestions.splice(parseInt(b.dataset.ci),1);save();renderCustomQuestions()}));
+}
+function addCustomQuestion(){
+  const q=document.getElementById('cq-q').value.trim();const opts=['a','b','c','d'].map(x=>document.getElementById('cq-'+x).value.trim());
+  const correct=parseInt(document.getElementById('cq-correct').value);const diff=document.getElementById('cq-diff').value;
+  if(!q){toast('✏️ اكتب السؤال');return}if(opts.some(o=>!o)){toast('⚠️ أكمل كل الخيارات');return}
+  const pts={easy:10,medium:15,hard:25}[diff]||10;
+  if(!STATE.customQuestions)STATE.customQuestions=[];
+  STATE.customQuestions.push({id:'cq_'+Date.now(),q,o:opts,a:correct,c:'مخصص',p:pts,diff});
+  save();document.getElementById('cq-q').value='';['a','b','c','d'].forEach(x=>{document.getElementById('cq-'+x).value=''});renderCustomQuestions();toast('✅ تم إضافة السؤال!');
+}
+
+// ============================================================
+// QUIZ
+// ============================================================
+// Start quiz for a specific Ramadan day (from path map)
+async function startQuizForDay(ramadanDay){
+  const p=prf();if(!p)return;
+  const td=STATE.timetable.find(t=>t.ramadanDay===ramadanDay);
+  if(!td){toast('⚠️ لا توجد بيانات لهذا اليوم');return}
+  const todayTd=todayTT();
+  const todayDay=todayTd?todayTd.ramadanDay:1;
+  // Can only play today or past days
+  if(ramadanDay>todayDay){toast('🔒 هذا اليوم لم يأت بعد');return}
+  // Check fajr lock for today only
+  if(ramadanDay===todayDay){
+    const now=new Date();
+    const fajrT=td?parseT(td.fajr,td.dateISO):null;
+    if(fajrT&&now<fajrT){toast('⏰ المسابقة تفتح بعد أذان الفجر '+(td.fajr||''));return}
+  }
+  const log=dayLog(p,td.dateISO);
+  // If already done, show result
+  if(log.quizDone){
+    const score=log.quizScore||0;
+    toast(`✅ يوم ${ramadanDay}: أجبت وحصلت على ${score} نقطة!`);
+    return;
+  }
+  // Resume saved progress for this day
+  if(QZ.saved&&QZ.saved.profileId===p.id&&QZ.saved.date===td.dateISO&&!log.quizDone){
+    QZ={...QZ.saved,active:true};
+    QZ._targetDate=td.dateISO; // track which day's log to update
+    showScreen('quiz');renderQuizQ();return;
+  }
+  await loadQuiz();
+  const seen=new Set(p.seenQuestions||[]);const custom=STATE.customQuestions||[];
+  let pool=[...(STATE.quizQuestions||[]),...custom].filter(q=>!seen.has(q.id));
+  if(pool.length<5){p.seenQuestions=[];save();pool=[...(STATE.quizQuestions||[]),...custom];}
+  const byDiff={easy:[],medium:[],hard:[]};
+  pool.forEach(q=>{const d=q.diff||(q.p<=10?'easy':q.p<=15?'medium':'hard');(byDiff[d]||(byDiff.easy)).push(q)});
+  const pick=(arr,n)=>arr.sort(()=>Math.random()-.5).slice(0,Math.min(n,arr.length));
+  const qs=[...pick(byDiff.easy,4),...pick(byDiff.medium,4),...pick(byDiff.hard,2)];
+  if(qs.length<3){const rest=pool.sort(()=>Math.random()-.5);qs.push(...rest.slice(0,10-qs.length))}
+  QZ={active:true,qs:qs.slice(0,10),cur:0,score:0,answers:[],profileId:p.id,
+      date:td.dateISO,_targetDate:td.dateISO,_ramadanDay:ramadanDay,saved:null};
+  showScreen('quiz');renderQuizQ();
+}
+async function startQuiz(){
+  const p=prf();if(!p)return;const now=new Date();
+  // FIX: unlock at fajr time
+  const td=todayTT();
+  const fajrT=td?parseT(td.fajr,td.dateISO):null;
+  if(fajrT&&now<fajrT){toast('⏰ المسابقة تفتح بعد أذان الفجر '+(td.fajr||''));return}
+  const log=dayLog(p);
+  // Resume saved progress
+  if(QZ.saved&&QZ.saved.profileId===p.id&&QZ.saved.date===todayISO()&&!log.quizDone){QZ={...QZ.saved,active:true};showScreen('quiz');renderQuizQ();return}
+  if(log.quizDone){toast('✅ أديت مسابقة اليوم! عد غداً');return}
+  await loadQuiz();
+  const seen=new Set(p.seenQuestions||[]);const custom=STATE.customQuestions||[];
+  let pool=[...(STATE.quizQuestions||[]),...custom].filter(q=>!seen.has(q.id));
+  if(pool.length<5){p.seenQuestions=[];save();pool=[...(STATE.quizQuestions||[]),...custom];toast('🎉 أتممت كل الأسئلة! نبدأ من جديد')}
+  // Mix difficulty: 4 easy, 4 medium, 2 hard
+  const byDiff={easy:[],medium:[],hard:[]};
+  pool.forEach(q=>{const d=q.diff||(q.p<=10?'easy':q.p<=15?'medium':'hard');(byDiff[d]||(byDiff.easy)).push(q)});
+  const pick=(arr,n)=>arr.sort(()=>Math.random()-.5).slice(0,Math.min(n,arr.length));
+  const today=[...pick(byDiff.easy,4),...pick(byDiff.medium,4),...pick(byDiff.hard,2)];
+  if(today.length<3){const rest=pool.sort(()=>Math.random()-.5);today.push(...rest.slice(0,10-today.length))}
+  QZ={active:true,qs:today.slice(0,10),cur:0,score:0,answers:[],profileId:p.id,date:todayISO(),saved:null};
+  showScreen('quiz');renderQuizQ();
+}
+function renderQuizQ(){
+  const q=QZ.qs[QZ.cur];if(!q){finishQuiz();return}
+  const n=QZ.cur+1;const total=QZ.qs.length;const pct=Math.round(QZ.cur/total*100);
+  const diffLabel={easy:'سهل 🟢',medium:'متوسط 🟡',hard:'صعب 🔴'};const dl=diffLabel[q.diff||(q.p<=10?'easy':q.p<=15?'medium':'hard')]||'';
+  document.getElementById('quiz-container').innerHTML=`
+    <div class="quiz-prog"><div class="quiz-prog-fill" style="width:${pct}%"></div></div>
+    <div class="quiz-meta">
+      <span class="text-muted bold">${n} / ${total}</span>
+      <span style="background:var(--surf);padding:3px 9px;border-radius:18px;font-size:0.72rem">${q.c||''} ${dl}</span>
+      <span class="text-accent bold">⭐ ${QZ.score}</span>
+    </div>
+    <div class="quiz-q">${q.q}</div>
+    <div class="quiz-opts" id="quiz-opts">${q.o.map((opt,i)=>`<button class="quiz-opt" data-qi="${i}">${opt}</button>`).join('')}</div>
+    <div id="quiz-fb" class="quiz-fb hidden"></div>
+    <div class="flex gap-8 mt-12"><button class="btn btn-ghost btn-sm" id="btn-quiz-save">💾 حفظ والمتابعة لاحقاً</button></div>`;
+  document.querySelectorAll('.quiz-opt').forEach(b=>b.addEventListener('click',()=>answerQ(parseInt(b.dataset.qi))));
+  document.getElementById('btn-quiz-save').addEventListener('click',()=>{QZ.saved={...QZ,active:false};save();showScreen('home');toast('💾 تم حفظ تقدمك! يمكنك المتابعة لاحقاً')});
+}
+function answerQ(sel){
+  if(!QZ.active)return;const q=QZ.qs[QZ.cur];
+  document.querySelectorAll('.quiz-opt').forEach(b=>b.disabled=true);
+  const correct=sel===q.a;const pts=correct?(q.p||10):0;QZ.score+=pts;QZ.answers=QZ.answers||[];QZ.answers.push({qid:q.id,correct,sel});
+  document.querySelectorAll('.quiz-opt').forEach((b,i)=>{if(i===q.a)b.classList.add('correct');else if(i===sel&&!correct)b.classList.add('wrong')});
+  const fb=document.getElementById('quiz-fb');fb.className='quiz-fb '+(correct?'correct':'wrong');
+  fb.textContent=correct?`✅ ممتاز! +${pts} نقطة`:`❌ الجواب الصحيح: ${q.o[q.a]}`;fb.classList.remove('hidden');
+  setTimeout(()=>{QZ.cur++;QZ.cur>=QZ.qs.length?finishQuiz():renderQuizQ()},1900);
+}
+function finishQuiz(){
+  QZ.active=false;QZ.saved=null;const p=prf();if(!p)return;
+  const total=QZ.qs.length;const correct=(QZ.answers||[]).filter(a=>a.correct).length;const pts=QZ.score;
+  // Write to the correct day's log (may be today or a past day from path map)
+  const targetDate=QZ._targetDate||todayISO();
+  const log=dayLog(p,targetDate);log.quizDone=true;log.quizScore=pts;
+  const dayNum=QZ._ramadanDay||'';
+  p.seenQuestions=[...(p.seenQuestions||[]),...QZ.qs.map(q=>q.id)];
+  p.points=(p.points||0)+pts;p.competitionPoints=(p.competitionPoints||0)+pts;
+  if(correct===total&&total>0){if(!p.achievements)p.achievements=[];if(!p.achievements.includes('quizPerf'))p.achievements.push('quizPerf')}
+  addActivityLog(p,'مسابقة يوم '+(dayNum||'')+'٫ '+correct+'/'+total,pts,'approved');save();
+  const stars=correct>=total?'⭐⭐⭐':correct>=Math.ceil(total*0.7)?'⭐⭐':'⭐';
+  document.getElementById('quiz-container').innerHTML=`
+    <div style="text-align:center;padding:20px 0">
+      <div style="font-size:2.5rem;margin-bottom:10px">${stars}</div>
+      <div style="font-size:1.4rem;font-weight:900;color:var(--accent);margin-bottom:13px">انتهت مسابقة اليوم ${dayNum}!</div>
+      <div class="card" style="text-align:right;display:flex;flex-direction:column;gap:7px;margin-bottom:13px">
+        <span>✅ إجابات صحيحة: ${correct} / ${total}</span>
+        <span>🎯 نقاطك: +${pts}</span>
+      </div>
+      <div class="text-muted text-sm" style="margin-bottom:16px">${correct>=total?'🏆 مثالي!':correct>=Math.ceil(total*0.7)?'⭐ رائع! أنت عارف كبير!':'💪 استمر في التعلم!'}</div>
+      <button class="btn btn-primary btn-block" id="btn-qhome">🗺️ عودة للمسار</button>
+    </div>`;
+  document.getElementById('btn-qhome').addEventListener('click',()=>{
+    // Return to quiz screen to see updated path map
+    showScreen('quiz');
+  });
+  if(pts>0)confetti();toast(`🎉 +${pts} نقطة أضيفت لرصيدك!`);
+}
+
+// ============================================================
+// EID
+// ============================================================
+function checkEidNotif(){
+  if(STATE.eidConfirmed||STATE.eidModalShown)return;const td=todayTT();if(!td)return;const now=new Date();
+  const day29=STATE.timetable.find(d=>d.ramadanDay===29);if(!day29)return;
+  if((td.ramadanDay===29||td.ramadanDay===30)&&now>=new Date(day29.dateISO+'T20:00:00')){STATE.eidModalShown=true;save();showModal('m-eid-q')}
+}
+function answerEid(yes){
+  closeModal('m-eid-q');STATE.eidConfirmed=true;STATE.ramadanDays=yes?29:30;save();
+  if(yes){const sorted=[...STATE.profiles].sort((a,b)=>(b.points||0)-(a.points||0))[0];if(sorted){document.getElementById('win-av').textContent=sorted.avatar;document.getElementById('win-name').textContent=sorted.name;document.getElementById('win-pts').textContent=(sorted.points||0)+' نقطة'}showModal('m-eid-cel');confetti();setTimeout(confetti,800);setTimeout(confetti,1600)}
+  else toast('🌙 نكمل صيام غداً — اليوم الثلاثين!');
+}
+
+// ============================================================
+// MODALS / TOAST / CONFETTI
+// ============================================================
+function showModal(id){const el=document.getElementById(id);if(el)el.classList.remove('hidden')}
+function closeModal(id){const el=document.getElementById(id);if(el)el.classList.add('hidden')}
+let toastTmr=null;
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');if(toastTmr)clearTimeout(toastTmr);toastTmr=setTimeout(()=>el.classList.remove('show'),2800)}
+function confetti(){
+  const cols=['#f0b429','#38c9b0','#e85d75','#9b59b6','#3498db','#2ecc71'];
+  for(let i=0;i<40;i++){const el=document.createElement('div');el.className='conf-p';el.style.cssText=`left:${Math.random()*100}vw;top:-10px;width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;background:${cols[Math.floor(Math.random()*cols.length)]};animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*0.4}s`;document.body.appendChild(el);setTimeout(()=>el.remove(),3000)}
+}
+
+// ============================================================
+// PWA / NOTIF / SERVICE WORKER
+// ============================================================
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;document.getElementById('install-bar-welcome').classList.remove('hidden')});
+function installPWA(){if(installPrompt){installPrompt.prompt();installPrompt.userChoice.then(r=>{if(r.outcome==='accepted')toast('✅ تم تثبيت التطبيق!')})}else toast('ℹ️ اضغط "إضافة إلى الشاشة الرئيسية" من قائمة المتصفح')}
+async function requestNotif(){if(!('Notification' in window)){toast('⚠️ المتصفح لا يدعم التنبيهات');return}const perm=await Notification.requestPermission();notifGranted=perm==='granted';if(notifGranted){toast('✅ تم تفعيل التنبيهات!');document.getElementById('notif-bar').classList.add('hidden')}else toast('❌ لم يتم قبول الإذن')}
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
+
+// ============================================================
+// WELCOME EXISTING PROFILES
+// ============================================================
+function renderWelcomeProfiles(){
+  const el=document.getElementById('existing-profiles');if(!el)return;
+  const localId=getLocalSession();
+  const myProfile=localId?STATE.profiles.find(p=>p.id===localId):null;
+  if(myProfile){
+    // This device has a profile — show only it, auto-redirect
+    el.innerHTML=`
+      <div style="background:linear-gradient(135deg,rgba(240,180,41,0.15),rgba(240,180,41,0.05));border:2px solid var(--accent);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:4px">
+        <span style="font-size:2.2rem">${myProfile.avatar}</span>
+        <div style="flex:1;text-align:right">
+          <div class="bold">${myProfile.name}</div>
+          <div class="text-xs text-muted">${myProfile.points||0} نقطة • ${getLevel(myProfile.points||0).name}</div>
+        </div>
+        <button class="btn btn-primary btn-sm" id="btn-my-profile-enter">← ادخل</button>
+      </div>`;
+    document.getElementById('btn-my-profile-enter')?.addEventListener('click',()=>switchProfile(myProfile.id));
+  } else {
+    // No session yet — show "create new profile" hint only
+    el.innerHTML='';
+  }
+}
+
+// ============================================================
+// INIT
+// ============================================================
+async function init(){
+  await load();
+  // Restore this device's local session
+  const localId = getLocalSession();
+  if(localId && STATE.profiles.find(p=>p.id===localId)){
+    STATE.currentId = localId;
+    // Apply this profile's theme
+    loadProfileTheme();
+    await loadTT();loadQuiz();
+    if(STATE.familyCode) subscribeToFamily();
+    if(typeof Notification!=='undefined'&&Notification.permission==='granted')notifGranted=true;
+    wireButtons();
+    // Auto-go to home — no welcome screen needed
+    showScreen('home');
+    startTimers();
+    renderHome();
+    return; // skip the rest
+  } else if(localId){
+    setLocalSession(null);
+    STATE.currentId = null;
+  }
+  loadProfileTheme();
+  await loadTT();loadQuiz();
+  if(STATE.familyCode) subscribeToFamily();
+  if(typeof Notification!=='undefined'&&Notification.permission==='granted')notifGranted=true;
+  wireButtons();
+  // No session — show welcome screen
+  renderWelcomeProfiles();
+}
+
+function wireButtons(){
+  // Wire all buttons
+  // (btn-start removed — replaced by role cards)
+  // ===== ROLE SELECTION (Landing) =====
+  document.getElementById('btn-role-kid').addEventListener('click',()=>{
+    const localId=getLocalSession();
+    const myProfile=localId?STATE.profiles.find(p=>p.id===localId):null;
+    if(myProfile){
+      // This device already has a profile — go directly, no choice
+      switchProfile(myProfile.id);
+    } else {
+      // New device — create new profile
+      initSetup();showScreen('setup');
+    }
+  });
+  document.getElementById('btn-role-parent').addEventListener('click',()=>{
+    showScreen('parent'); // parent PIN will be asked there
+  });
+  document.getElementById('btn-enter-code').addEventListener('click',()=>{document.getElementById('fam-code-input').value='';showModal('m-famcode')});
+  document.getElementById('btn-fam-code-close').addEventListener('click',()=>closeModal('m-famcode'));
+  document.getElementById('btn-fam-code-submit').addEventListener('click', async()=>{
+    const code=(document.getElementById('fam-code-input').value||'').trim().toUpperCase();
+    if(!code){toast('✏️ أدخل الرمز أولاً');return}
+    if(code===STATE.familyCode){toast('✅ أنت بالفعل في هذه العائلة');closeModal('m-famcode');return}
+    const btn=document.getElementById('btn-fam-code-submit');
+    btn.disabled=true;btn.textContent='⏳ جارٍ البحث...';
+    const ok=await joinFamily(code);
+    btn.disabled=false;btn.textContent='✓ ربط';
+    if(ok){toast('✅ تم الربط بالعائلة! مرحباً 🎉');closeModal('m-famcode');await subscribeToFamily();renderProfiles();}
+    else toast('❌ الرمز غير صحيح أو العائلة غير موجودة');
+  });
+  document.getElementById('fam-code-input').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('btn-fam-code-submit').click()});
+  document.getElementById('btn-install').addEventListener('click',installPWA);
+  document.getElementById('btn-back-welcome').addEventListener('click',()=>showScreen('welcome'));
+  document.getElementById('btn-s0').addEventListener('click',()=>{
+    const name=document.getElementById('s-name').value.trim();const age=parseInt(document.getElementById('s-age').value);
+    if(!name){toast('✏️ اكتب اسمك أولاً');return}if(!age||age<3||age>16){toast('🔢 العمر يجب أن يكون بين 3 و 16');return}
+    setupData.name=name.substring(0,30);setupData.age=age;showStep(1);
+  });
+  document.getElementById('btn-s1').addEventListener('click',()=>showStep(2));
+  document.getElementById('btn-s2').addEventListener('click',()=>showStep(3));
+  document.getElementById('btn-s3').addEventListener('click',()=>{
+    const plan=genPlan(setupData.age,setupData.diff);
+    document.getElementById('sl-d').value=plan.dhuhrDays;document.getElementById('sl-a').value=plan.asrDays;document.getElementById('sl-m').value=plan.maghribDays;
+    document.getElementById('lbl-d').textContent=plan.dhuhrDays+' يوم';document.getElementById('lbl-a').textContent=plan.asrDays+' يوم';document.getElementById('lbl-m').textContent=plan.maghribDays+' يوم';
+    document.getElementById('total-info').textContent='✅ المجموع: '+(plan.dhuhrDays+plan.asrDays+plan.maghribDays)+' يوماً';
+    showStep(4);
+  });
+  document.getElementById('btn-s4').addEventListener('click',createProfile);
+  // Nav
+  document.querySelectorAll('.nav-btn[data-s]').forEach(b=>b.addEventListener('click',()=>showScreen(b.dataset.s)));
+  // Home
+  document.getElementById('btn-notif').addEventListener('click',requestNotif);
+  document.getElementById('btn-quiz').addEventListener('click',()=>showScreen('quiz'));
+  document.getElementById('btn-night').addEventListener('click',()=>showScreen('themes'));
+  document.getElementById('btn-cert-home').addEventListener('click',()=>showScreen('certificate'));
+  document.getElementById('btn-maghrib').addEventListener('click',claimMaghrib);
+  // Modals
+  document.querySelectorAll('#m-ate [data-r]').forEach(b=>b.addEventListener('click',()=>confirmAte(b.dataset.r)));
+  document.getElementById('btn-cancel-ate').addEventListener('click',()=>closeModal('m-ate'));
+  document.getElementById('btn-close-chest').addEventListener('click',()=>closeModal('m-chest'));
+  document.getElementById('btn-close-theme').addEventListener('click',()=>closeModal('m-theme'));
+  document.getElementById('btn-eid-yes').addEventListener('click',()=>answerEid(true));
+  document.getElementById('btn-eid-no').addEventListener('click',()=>answerEid(false));
+  document.getElementById('btn-eid-cert').addEventListener('click',()=>{closeModal('m-eid-cel');showScreen('certificate')});
+  document.getElementById('btn-eid-close').addEventListener('click',()=>closeModal('m-eid-cel'));
+  // Certificate
+  document.getElementById('btn-cert-back').addEventListener('click',()=>showScreen('home'));
+  // Quiz
+  document.getElementById('btn-quiz-back').addEventListener('click',()=>{
+    if(QZ.active){
+      // Save progress and show map
+      QZ.saved={...QZ,active:false};
+      saveLocal();
+    }
+    QZ.active=false;
+    const map=document.getElementById('quiz-path-map');
+    if(map){map.style.display='';renderQuizPath(prf());}
+    const qc=document.getElementById('quiz-container');
+    if(qc)qc.innerHTML='';
+  });
+  // Parent
+  document.getElementById('btn-parent-back').addEventListener('click',()=>showScreen('welcome'));
+  document.getElementById('btn-pin').addEventListener('click',checkPin);
+  document.getElementById('btn-save-pin').addEventListener('click',savePinSetup);
+  document.getElementById('btn-forgot-pin').addEventListener('click',forgotPin);
+  document.getElementById('pin-create-1').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('pin-create-2').focus()});
+  document.getElementById('pin-create-2').addEventListener('keydown',e=>{if(e.key==='Enter')savePinSetup()});
+  document.getElementById('math-ans').addEventListener('keydown',e=>{if(e.key==='Enter')checkPin()});
+  document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>openParentTab(b.dataset.tab)));
+  document.getElementById('btn-regen-code').addEventListener('click', async()=>{
+    if(!confirm('تغيير الرمز سيقطع ربط الأجهزة الأخرى. متأكد؟'))return;
+    STATE.familyCode=Math.random().toString(36).substring(2,8).toUpperCase();
+    _realtimeSub=null;
+    document.getElementById('family-code').textContent=STATE.familyCode;
+    await testConnection();
+  });
+  document.getElementById('btn-test-conn').addEventListener('click', testConnection);
+  document.getElementById('btn-add-bad').addEventListener('click',addBadDeed);
+  document.getElementById('btn-add-pts').addEventListener('click',()=>editPoints(true));
+  document.getElementById('btn-rem-pts').addEventListener('click',()=>editPoints(false));
+  document.getElementById('btn-add-gems').addEventListener('click',()=>editGems(true));
+  document.getElementById('btn-rem-gems').addEventListener('click',()=>editGems(false));
+  document.getElementById('btn-add-rew').addEventListener('click',addReward);
+  document.getElementById('btn-add-cq').addEventListener('click',addCustomQuestion);
+  document.getElementById('cq-search').addEventListener('input',renderCustomQuestions);
+  document.getElementById('btn-save-quiz-time').addEventListener('click',()=>{STATE.quizHour=parseInt(document.getElementById('quiz-hour').value)||16;save();toast('✅ تم حفظ وقت المسابقة!')});
+  document.getElementById('btn-save-tt').addEventListener('click',saveTimetable);
+  document.getElementById('btn-reset').addEventListener('click',resetMonth);
+  // FIX: Eid end-game controls (Phase 1.10)
+  const endRam29=document.getElementById('btn-end-ramadan-29');
+  const cont30=document.getElementById('btn-continue-30');
+  if(endRam29)endRam29.addEventListener('click',()=>{if(!confirm('إنهاء رمضان بعد 29 يوماً وبدء احتفال العيد؟'))return;STATE.ramadanDays=29;STATE.eidConfirmed=true;save();showModal('m-eid-cel');toast('🎉 عيد مبارك!')});
+  if(cont30)cont30.addEventListener('click',()=>{STATE.ramadanDays=30;save();toast('📅 سيستمر الشهر حتى اليوم 30');});
+  document.getElementById('log-filter-child').addEventListener('change',renderParentLog);
+  // Add profile
+  // btn-add-profile removed — each device creates its own profile via welcome screen
+  // Themes back
+  document.getElementById('btn-welcome-theme').addEventListener('click',()=>showScreen('themes'));
+  document.getElementById('btn-themes-back').addEventListener('click',()=>showScreen(STATE.profiles.length?'home':'welcome'));
+  // Notification prompt
+  setTimeout(()=>{if(typeof Notification!=='undefined'&&Notification.permission==='default'&&STATE.profiles.length)document.getElementById('notif-bar').classList.remove('hidden')},3000);
+}
+
+document.addEventListener('DOMContentLoaded',init);

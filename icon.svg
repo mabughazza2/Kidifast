@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="sky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d0533"/>
+      <stop offset="50%" style="stop-color:#4a1a8a"/>
+      <stop offset="80%" style="stop-color:#b5367a"/>
+      <stop offset="100%" style="stop-color:#f97316"/>
+    </linearGradient>
+    <radialGradient id="moonFill" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" style="stop-color:#fff9c4"/>
+      <stop offset="100%" style="stop-color:#fdd835"/>
+    </radialGradient>
+    <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#fffde7;stop-opacity:0.45"/>
+      <stop offset="100%" style="stop-color:#fffde7;stop-opacity:0"/>
+    </radialGradient>
+    <filter id="sh"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#00000040"/></filter>
+  </defs>
+
+  <!-- BG -->
+  <rect width="512" height="512" rx="100" ry="100" fill="url(#sky)"/>
+
+  <!-- Stars -->
+  <g fill="#fff" opacity="0.9">
+    <circle cx="55" cy="55" r="3.5"/><circle cx="130" cy="35" r="2.5"/>
+    <circle cx="200" cy="62" r="2"/><circle cx="305" cy="28" r="3.5"/>
+    <circle cx="390" cy="52" r="2.5"/><circle cx="460" cy="38" r="3"/>
+    <circle cx="480" cy="95" r="2"/><circle cx="32" cy="115" r="2.5"/>
+    <circle cx="160" cy="108" r="2"/><circle cx="428" cy="105" r="2"/>
+  </g>
+  <!-- 4-point sparkle -->
+  <path d="M100 72 L104 84 L116 84 L106 92 L110 104 L100 96 L90 104 L94 92 L84 84 L96 84 Z" fill="#ffd54f"/>
+  <path d="M440 68 L444 78 L454 78 L447 85 L450 95 L440 89 L430 95 L433 85 L426 78 L436 78 Z" fill="#ffd54f"/>
+
+  <!-- Moon glow halo -->
+  <ellipse cx="365" cy="148" rx="80" ry="80" fill="url(#moonGlow)"/>
+
+  <!-- Crescent moon -->
+  <g filter="url(#sh)">
+    <circle cx="365" cy="148" r="65" fill="url(#moonFill)"/>
+    <circle cx="392" cy="130" r="56" fill="#3a1278"/>
+  </g>
+  <!-- Moon face -->
+  <circle cx="336" cy="140" r="5" fill="#bf8f00"/><circle cx="336" cy="140" r="2.8" fill="#4a2800"/>
+  <circle cx="354" cy="158" r="5" fill="#bf8f00"/><circle cx="354" cy="158" r="2.8" fill="#4a2800"/>
+  <path d="M328 168 Q342 180 360 172" stroke="#bf8f00" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- Moon shimmer -->
+  <ellipse cx="344" cy="130" rx="12" ry="18" fill="#fffde7" opacity="0.35" transform="rotate(-20,344,130)"/>
+
+  <!-- Ground hill -->
+  <ellipse cx="256" cy="510" rx="300" ry="82" fill="#1b5e20"/>
+  <ellipse cx="256" cy="495" rx="300" ry="50" fill="#2e7d32"/>
+
+  <!-- Kid body (thobe) -->
+  <g filter="url(#sh)">
+    <path d="M210 315 Q205 368 202 425 Q228 434 256 434 Q284 434 310 425 Q307 368 302 315 Q283 300 256 298 Q229 300 210 315Z" fill="#fff" stroke="#e8e8e8" stroke-width="1.5"/>
+    <!-- Green collar stripe -->
+    <path d="M218 320 Q237 308 256 305 Q275 308 294 320" stroke="#4caf50" stroke-width="4" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- Arms raised joyfully -->
+  <path d="M218 326 Q190 298 172 278" stroke="#fdbcb4" stroke-width="13" stroke-linecap="round" fill="none"/>
+  <circle cx="168" cy="274" r="10" fill="#fdbcb4"/>
+  <path d="M294 326 Q322 298 340 278" stroke="#fdbcb4" stroke-width="13" stroke-linecap="round" fill="none"/>
+  <circle cx="344" cy="274" r="10" fill="#fdbcb4"/>
+
+  <!-- Head -->
+  <circle cx="256" cy="258" r="50" fill="#fdbcb4" filter="url(#sh)"/>
+
+  <!-- Kufiya cap -->
+  <ellipse cx="256" cy="220" rx="42" ry="13" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <path d="M214 220 Q224 194 256 187 Q288 194 298 220" fill="#43a047"/>
+  <!-- Cap check pattern lines -->
+  <path d="M220 212 Q238 203 256 200 Q274 203 292 212" stroke="#fff" stroke-width="1.5" fill="none" opacity="0.5"/>
+
+  <!-- Face features -->
+  <!-- Eyes -->
+  <circle cx="239" cy="255" r="8" fill="#4a2800"/>
+  <circle cx="273" cy="255" r="8" fill="#4a2800"/>
+  <circle cx="242" cy="252" r="3.5" fill="#fff"/>
+  <circle cx="276" cy="252" r="3.5" fill="#fff"/>
+  <!-- Eyebrows -->
+  <path d="M231 241 Q239 236 247 241" stroke="#5d3a00" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M265 241 Q273 236 281 241" stroke="#5d3a00" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- Big open smile -->
+  <path d="M232 274 Q256 300 280 274" stroke="#c62828" stroke-width="3.5" stroke-linecap="round" fill="#ef5350"/>
+  <!-- Teeth -->
+  <path d="M240 276 L240 283 M256 278 L256 284 M272 276 L272 283" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Rosy cheeks -->
+  <circle cx="222" cy="272" r="11" fill="#f48fb1" opacity="0.55"/>
+  <circle cx="290" cy="272" r="11" fill="#f48fb1" opacity="0.55"/>
+
+  <!-- Floating stars around kid -->
+  <text x="155" y="245" font-size="26" opacity="0.95">✨</text>
+  <text x="318" y="240" font-size="22" opacity="0.95">✨</text>
+  <text x="185" y="182" font-size="18" opacity="0.9">⭐</text>
+  <text x="308" y="178" font-size="16" opacity="0.9">⭐</text>
+
+  <!-- Bottom text -->
+  <text x="256" y="478" font-family="'Segoe UI',Arial,sans-serif" font-size="30" font-weight="900"
+    fill="#fdd835" text-anchor="middle" filter="url(#sh)">رمضان 🌙</text>
+</svg>
